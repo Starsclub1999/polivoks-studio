@@ -1,5 +1,25 @@
 <!doctype html>
 <html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ПОЛИВОКС • Электронная студия</title>
+<meta name="description" content="Виртуальный аналоговый синтезатор Поливокс с драм-машиной, секвенсором, осциллографом и большой коллекцией пресетов.">
+
+<!-- Превью ссылки в Discord, Telegram и социальных сетях -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Polivoks Studio">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Polivoks Studio — Analog Synthesizer">
+<meta property="og:description" content="Легендарный аналоговый синтезатор Поливокс прямо в браузере. Синтезатор, драм-машина, секвенсор и пресеты.">
+<meta property="og:url" content="https://YOUR-USERNAME.github.io/polivoks-studio/">
+<meta property="og:image" content="https://YOUR-USERNAME.github.io/polivoks-studio/preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Polivoks Studio — электронная студия и аналоговый синтезатор">
+
+<!-- Крупная карточка для X / Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Polivoks Studio — Analog Synthesizer">
+<meta name="twitter:description" content="Play the legendary Polivoks synthesizer online: drum machine, sequencer and presets.">
+<meta name="twitter:image" content="https://YOUR-USERNAME.github.io/polivoks-studio/preview.png">
+
 <link rel="stylesheet" href="assets/studio.css?v=3.0.0"><link rel="icon" href="data:,"></head><body class="booting">
 <header><div class="brand"><span class="emblem">П</span><div><strong>ПОЛИВОКС</strong><small>ЭЛЕКТРОННАЯ СТУДИЯ • KVANT EDITION / 3.0 SOUNDBOOK</small></div></div><div class="toptools"><span id="status"><i class="led" id="audioLed"></i>СТУДИЯ ОЖИДАЕТ</span><button class="accent" id="power">ВКЛЮЧИТЬ ЗВУК</button><button id="panic" class="red" title="Остановить всё: Escape">СБРОС</button><button id="full" title="Полный экран">⛶</button><button id="storageBtn">ПАМЯТЬ / ОЧИСТКА</button><button id="helpBtn">ИНСТРУКЦИЯ</button></div></header><section id="bootPanel" role="status" style="margin:12px 24px;padding:15px;border:2px solid #8ea885;background:#182a27;color:#e7ddc3;font-family:monospace;line-height:1.6"><h2>ПОЛИВОКС / ЗАПУСК СТУДИИ</h2><p id="bootMessage">Загрузка Soundbook 3.0. Открывайте сайт по HTTPS и нажмите «ВКЛЮЧИТЬ ЗВУК». Для локальной проверки используйте localhost.</p><div id="bootDetail"></div><div id="bootActions"><button id="safeStart">ЧИСТЫЙ ЗАПУСК</button><button id="memoryOpen">ПАМЯТЬ И ВОССТАНОВЛЕНИЕ</button></div><noscript><p>Для студии необходимо включить JavaScript.</p></noscript></section>
 <div class="presetbar"><label>ЖАНР / АВТОР</label><select id="category"></select><select id="presetType" aria-label="Тип тембра"></select><input id="presetSearch" type="text" placeholder="ПОИСК ТЕМБРА" aria-label="Поиск пресетов"><button id="prev">◀</button><select id="preset" aria-label="Пресет синтезатора"></select><button id="next">▶</button><span id="patchdesc"></span><div class="sep"></div><select id="engineMode" title="Оригинальный Поливокс или расширения панели"><option value="original">ОРИГИНАЛ · 1/2</option><option value="extended">РАСШИРЕННЫЙ · 16</option></select><label>МАСШТАБ <select id="zoom"><option value="fit">ВМЕСТИТЬ</option><option value="0.7">70%</option><option value="0.85">85%</option><option value="1">100%</option><option value="1.25">125%</option></select></label><label class="preset-follow"><input id="followPresetMode" type="checkbox" checked> РЕЖИМ ИЗ ПРЕСЕТА</label><label class="preset-follow"><input id="followPresetFX" type="checkbox" checked> FX ИЗ ПРЕСЕТА</label><button id="savePatch">+ ПРЕСЕТ</button></div>
