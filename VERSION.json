@@ -1,0 +1,18 @@
+{
+  "version": "5.0.0",
+  "name": "Polivoks Long Tape",
+  "genres": 34,
+  "typesPerGenre": 10,
+  "presetsPerGenreType": 5,
+  "synthPresets": 1700,
+  "originalPatches": 20,
+  "extendedPatches": 1680,
+  "composerPresets": 688,
+  "drumKits": 68,
+  "drumPatterns": 688,
+  "maxBars": 4096,
+  "maxMidiNotes": 200000,
+  "midiImport": "SMF 0/1 PPQN or SMPTE, notes/drums/both, tempo maps",
+  "requires": "HTTPS or localhost; Web Audio AudioWorklet",
+  "externalRuntimeDependencies": []
+}
