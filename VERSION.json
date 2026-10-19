@@ -1,0 +1,44 @@
+{
+  "version": "7.0.0",
+  "name": "ФОРМАНТА — Амбулатория звука",
+  "nameEn": "FORMANTA — Sound Clinic",
+  "instrument": "Поливокс / Polivoks",
+  "languages": [
+    "ru",
+    "en"
+  ],
+  "synthPresets": 458,
+  "presetCollections": {
+    "Заводская коллекция": 308,
+    "INHALT": 100,
+    "Snakes of Russia": 50
+  },
+  "synthTypes": 12,
+  "panelParameters": 85,
+  "panels": [
+    "ОСНОВНАЯ",
+    "АРП / ЭФФЕКТЫ"
+  ],
+  "voiceCounts": [
+    1,
+    2,
+    4,
+    8,
+    16
+  ],
+  "composerPresets": 14,
+  "drumPatterns": 8,
+  "drumKits": 68,
+  "repertoireSeconds": 2742.4257912761427,
+  "manualChapters": 27,
+  "maxDurationSeconds": null,
+  "barAddressLimit": 4294967295,
+  "maxEventsPerType": 2000000,
+  "maxInputMidiBytes": 25165824,
+  "audio": "AudioWorklet / Worker PCM + C/WebAssembly f64 SIMD 4×",
+  "nativeVst3Included": false,
+  "wasmIncluded": true,
+  "requires": "HTTPS or localhost; AudioWorklet",
+  "externalRuntimeDependencies": [],
+  "projectVersion": 7
+}

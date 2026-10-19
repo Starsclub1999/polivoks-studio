@@ -1,0 +1,400 @@
+{
+  "version": "7.0.0",
+  "date": "2026-10-19",
+  "render": {
+    "patches": 458,
+    "finiteAndAudible": 458,
+    "quietThreshold": {
+      "peak": 5e-05,
+      "rms": 5e-06
+    },
+    "peak": 0.9711830615997314,
+    "sampleRate": 48000,
+    "probeNote": 60,
+    "probeVelocity": 0.85,
+    "arpChord": [
+      60,
+      64,
+      67
+    ],
+    "minimumProbeSeconds": 3.3,
+    "longAttackProbe": "attack + 1.5 seconds",
+    "referenceComparison": "previous v6 browser engine, not native plugin",
+    "pairedProbes": 51,
+    "medianRmsGainDb": 10.430425550520697,
+    "medianFirstDifferenceEnergyRatio": 1.712155758064956
+  },
+  "core": {
+    "cases": 60,
+    "maxError": 0,
+    "finite": true,
+    "all64SlotsRecycled": true,
+    "technology": "WASM SIMD f64 ZDF 4×"
+  },
+  "state": {
+    "parameters": 36182,
+    "checks": [
+      {
+        "name": "pointer sweeps and loop/glide switch/LED polarity",
+        "positions": 213
+      },
+      {
+        "name": "100 million sparse bars / reloading imported scores and rhythm / MIDI",
+        "allocated": 2,
+        "bytes": 15170,
+        "elapsedMs": 107.16591500000004
+      },
+      {
+        "name": "all source MIDI scores and independent drums after sparse update",
+        "counts": [
+          {
+            "id": "repertoire-os-3718426",
+            "notes": 243,
+            "drums": 1369
+          },
+          {
+            "id": "repertoire-os-1561024",
+            "notes": 667,
+            "drums": 365
+          },
+          {
+            "id": "repertoire-os-1754602",
+            "notes": 23622,
+            "drums": 0
+          },
+          {
+            "id": "repertoire-os-1174427",
+            "notes": 14,
+            "drums": 0
+          },
+          {
+            "id": "repertoire-os-3434054",
+            "notes": 1357,
+            "drums": 1242
+          },
+          {
+            "id": "repertoire-os-3870948",
+            "notes": 94,
+            "drums": 1453
+          },
+          {
+            "id": "repertoire-os-3094001",
+            "notes": 1494,
+            "drums": 0
+          },
+          {
+            "id": "repertoire-os-3852488",
+            "notes": 170,
+            "drums": 2050
+          },
+          {
+            "id": "repertoire-os-2183191",
+            "notes": 2380,
+            "drums": 5748
+          },
+          {
+            "id": "repertoire-os-2797143",
+            "notes": 286,
+            "drums": 348
+          },
+          {
+            "id": "repertoire-os-2492551",
+            "notes": 3086,
+            "drums": 6663
+          },
+          {
+            "id": "repertoire-os-2387427",
+            "notes": 1701,
+            "drums": 0
+          },
+          {
+            "id": "repertoire-os-4197027",
+            "notes": 3474,
+            "drums": 0
+          },
+          {
+            "id": "repertoire-os-3391823",
+            "notes": 170,
+            "drums": 0
+          }
+        ]
+      },
+      {
+        "name": "entire >3-minute score / drums scheduling and exact one-shot stop",
+        "duration": 212
+      }
+    ]
+  },
+  "browser": {
+    "errors": [],
+    "checks": [
+      {
+        "name": "secure subpath boot / intro input isolation"
+      },
+      {
+        "name": "14 source MIDI scores + 8 independent GM drum tracks",
+        "programs": [
+          {
+            "id": "repertoire-os-3718426",
+            "notes": 243,
+            "drums": 1369,
+            "length": 1696,
+            "seconds": 212,
+            "engine": 1,
+            "extended": true
+          },
+          {
+            "id": "repertoire-os-1561024",
+            "notes": 667,
+            "drums": 365,
+            "length": 864,
+            "seconds": 202.5,
+            "engine": 1,
+            "extended": true
+          },
+          {
+            "id": "repertoire-os-1754602",
+            "notes": 23622,
+            "drums": 0,
+            "length": 1952,
+            "seconds": 238.04884,
+            "engine": 1,
+            "extended": true
+          },
+          {
+            "id": "repertoire-os-1174427",
+            "notes": 14,
+            "drums": 0,
+            "length": 144,
+            "seconds": 129.6,
+            "engine": 1,
+            "extended": true
+          },
+          {
+            "id": "repertoire-os-3434054",
+            "notes": 1357,
+            "drums": 1242,
+            "length": 1808,
+            "seconds": 213.54333200000002,
+            "engine": 1,
+            "extended": true
+          },
+          {
+            "id": "repertoire-os-3870948",
+            "notes": 94,
+            "drums": 1453,
+            "length": 1264,
+            "seconds": 252.8,
+            "engine": 1,
+            "extended": true
+          },
+          {
+            "id": "repertoire-os-3094001",
+            "notes": 1494,
+            "drums": 0,
+            "length": 1248,
+            "seconds": 270.857188,
+            "engine": 1,
+            "extended": true
+          },
+          {
+            "id": "repertoire-os-3852488",
+            "notes": 170,
+            "drums": 2050,
+            "length": 2048,
+            "seconds": 264.82739200000003,
+            "engine": 1,
+            "extended": true
+          },
+          {
+            "id": "repertoire-os-2183191",
+            "notes": 2380,
+            "drums": 5748,
+            "length": 1984,
+            "seconds": 135.272592,
+            "engine": 1,
+            "extended": true
+          },
+          {
+            "id": "repertoire-os-2797143",
+            "notes": 286,
+            "drums": 348,
+            "length": 496,
+            "seconds": 33.029305,
+            "engine": 1,
+            "extended": true
+          },
+          {
+            "id": "repertoire-os-2492551",
+            "notes": 3086,
+            "drums": 6663,
+            "length": 2048,
+            "seconds": 279.27296,
+            "engine": 1,
+            "extended": true
+          },
+          {
+            "id": "repertoire-os-2387427",
+            "notes": 1701,
+            "drums": 0,
+            "length": 1200,
+            "seconds": 337.582592,
+            "engine": 1,
+            "extended": true
+          },
+          {
+            "id": "repertoire-os-4197027",
+            "notes": 3474,
+            "drums": 0,
+            "length": 1824,
+            "seconds": 256,
+            "engine": 1,
+            "extended": true
+          },
+          {
+            "id": "repertoire-os-3391823",
+            "notes": 170,
+            "drums": 0,
+            "length": 928,
+            "seconds": 532.30054575,
+            "engine": 1,
+            "extended": true
+          }
+        ]
+      },
+      {
+        "name": "actual source-part selection",
+        "parts": 6,
+        "all": 3232
+      },
+      {
+        "name": "one million sparse bars / >28-bit MIDI gap / project / crop",
+        "bars": 1000000,
+        "allocatedBars": 3,
+        "midiBytes": 315,
+        "elapsedMs": 151
+      },
+      {
+        "name": "legacy v4 and v6 projects",
+        "bars": 3,
+        "notes": 2,
+        "engine": 1
+      },
+      {
+        "name": "actual AudioWorklet executes WebAssembly",
+        "ready": true,
+        "profile": "direct",
+        "resolvedProfile": "direct",
+        "mode": "LIVE / WASM ZDF 4×",
+        "sampleRate": 48000,
+        "late": 0,
+        "voices": 0,
+        "peak": 0,
+        "queueSeconds": 0,
+        "metrics": {
+          "underruns": null,
+          "missing": 0,
+          "queued": 0,
+          "load": 0,
+          "worst": 0,
+          "block": 0,
+          "quantum": 128,
+          "late": 0,
+          "benchmark": null,
+          "technology": "WASM SIMD f64 ZDF 4×"
+        }
+      },
+      {
+        "name": "PCM recording / acknowledged flush / valid WAV",
+        "frames": 46208
+      },
+      {
+        "name": "RF64 long recording header",
+        "tag": "RF64",
+        "bytes": 80,
+        "data": 4294967296,
+        "samples": 1073741824
+      },
+      {
+        "name": "English scan of tabs and options",
+        "untranslated": 0
+      },
+      {
+        "name": "RU / EN roundtrip"
+      },
+      {
+        "name": "layout 1600",
+        "body": 1600,
+        "viewport": 1600,
+        "device": 1552
+      },
+      {
+        "name": "layout 768",
+        "body": 768,
+        "viewport": 768,
+        "device": 744
+      },
+      {
+        "name": "layout 390",
+        "body": 390,
+        "viewport": 390,
+        "device": 378
+      },
+      {
+        "name": "16 held voices with preset effects / PCM128 / 85 ms main-thread stall",
+        "ready": true,
+        "profile": "buffered",
+        "resolvedProfile": "buffered",
+        "mode": "WORKER / PCM 128 ms",
+        "sampleRate": 48000,
+        "late": 0,
+        "voices": 16,
+        "peak": 0.5342282218617397,
+        "queueSeconds": 0.128,
+        "metrics": {
+          "underruns": 0,
+          "missing": 0,
+          "queued": 4864,
+          "load": 44.57525789656995,
+          "worst": 80.19999999925494,
+          "block": 21.333333333333332,
+          "quantum": 128,
+          "late": 0,
+          "benchmark": null,
+          "technology": "WASM SIMD f64 ZDF 4×"
+        }
+      }
+    ]
+  },
+  "audioModules": {
+    "direct": {
+      "voices": 16,
+      "fourEffects": true,
+      "drums": true,
+      "recordedSamples": 61440,
+      "peak": 0.8532621264457703,
+      "flushAck": true
+    },
+    "sampleFrameOnset": true,
+    "pcm": {
+      "queueMs": 43,
+      "normalUnderruns": 0,
+      "forcedUnderrunDetected": true,
+      "recordedSamples": 30720,
+      "flushAck": true
+    },
+    "effects": {
+      "phMode": 0.05199947427149723,
+      "chMode": 0.03568730339927987,
+      "eMode": 0.03796657252736404,
+      "rMode": 0.027477390728893755
+    }
+  },
+  "verificationLimits": [
+    "No matched native plugin reference render",
+    "No physical Polivoks",
+    "No FiiO or Steinberg hardware",
+    "Chromium virtual output; no Safari/Firefox hardware tests",
+    "Final sparse-state changes verified by runtime fixture; previous layout/audio browser checks retained"
+  ]
+}
