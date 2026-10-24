@@ -1,0 +1,1634 @@
+{
+  "schema": "Native JUCE NormalisableRange skew; physicalFromUnit exponent1/skew; unitFromPhysical exponentskew; symmetric operates on signed distance to midpoint",
+  "controls": [
+    {
+      "id": "RateKnob",
+      "label": "Modulator - Speed",
+      "minimum": 0.01,
+      "maximum": 20.0,
+      "default": 6.0,
+      "rawArgs": [
+        "DAT_18050f0f0",
+        "uVar12",
+        "DAT_18050f570"
+      ],
+      "slot": "0xa8",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 385,
+      "customMapping": {
+        "kind": "midpoint",
+        "midpoint": 2.5,
+        "skew": 0.3327719664734694,
+        "symmetric": false,
+        "nativeSetter": "FUN_180009be0",
+        "dspDecompiledLine": 258644,
+        "physicalAtUnitHalf": 2.5,
+        "defaultUnit": 0.6696252491386532
+      },
+      "dspDecompiledLine": 258631
+    },
+    {
+      "id": "fxModRateKnob",
+      "label": "FX Modulator - Speed",
+      "minimum": 0.01,
+      "maximum": 20.0,
+      "default": 6.0,
+      "rawArgs": [
+        "uVar1",
+        "uVar12",
+        "uVar2"
+      ],
+      "slot": "0xa9",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 401,
+      "customMapping": {
+        "kind": "midpoint",
+        "midpoint": 2.5,
+        "skew": 0.3327719664734694,
+        "symmetric": false,
+        "nativeSetter": "FUN_180009be0",
+        "dspDecompiledLine": 258660,
+        "physicalAtUnitHalf": 2.5,
+        "defaultUnit": 0.6696252491386532
+      },
+      "dspDecompiledLine": 258647
+    },
+    {
+      "id": "GlideKnob",
+      "label": "Voice Assign - Glissando",
+      "minimum": 1.0,
+      "maximum": 500.0,
+      "default": 1.0,
+      "rawArgs": [
+        "DAT_18050f3e0",
+        "DAT_18050f6d8",
+        "DAT_18050f3e0"
+      ],
+      "slot": "0xa7",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 418,
+      "customMapping": {
+        "kind": "midpoint",
+        "midpoint": 130.0,
+        "skew": 0.5123820320656677,
+        "symmetric": false,
+        "nativeSetter": "FUN_180009be0",
+        "dspDecompiledLine": 258678,
+        "physicalAtUnitHalf": 130.0,
+        "defaultUnit": 0.0
+      },
+      "dspDecompiledLine": 258664
+    },
+    {
+      "id": "voiceAssgnNumOfVoices",
+      "label": "Voice Assign - Number of Voices",
+      "minimum": 0.0,
+      "maximum": 4.0,
+      "default": 0.0,
+      "rawArgs": [
+        "0",
+        "DAT_18050f538",
+        "0"
+      ],
+      "slot": "0xa6",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 436,
+      "dspDecompiledLine": 258682,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 2.0,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 2.0,
+        "defaultUnit": 0
+      }
+    },
+    {
+      "id": "voiceAssgnUniDetune",
+      "label": "Voice Assign - Unison Detune",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.2,
+      "rawArgs": [
+        "0",
+        "uVar2",
+        "DAT_18050f210"
+      ],
+      "slot": "0xa5",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 451,
+      "dspDecompiledLine": 258697,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 0.5,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 0.5,
+        "defaultUnit": 0.2
+      }
+    },
+    {
+      "id": "VCO1LFOKnob",
+      "label": "Oscillator 1 - Mod Amount",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.0,
+      "rawArgs": [
+        "0",
+        "uVar2",
+        "0"
+      ],
+      "slot": "0xa4",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 466,
+      "customMapping": {
+        "kind": "midpoint",
+        "midpoint": 0.1,
+        "skew": 0.3010299956639812,
+        "symmetric": false,
+        "nativeSetter": "FUN_180009be0",
+        "dspDecompiledLine": 258724,
+        "physicalAtUnitHalf": 0.1,
+        "defaultUnit": 0.0
+      },
+      "dspDecompiledLine": 258712
+    },
+    {
+      "id": "XmodKnob",
+      "label": "Oscillator I - Oscillator II Mod Amount",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.0,
+      "rawArgs": [
+        "0",
+        "uVar2",
+        "0"
+      ],
+      "slot": "0xa3",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 481,
+      "dspDecompiledLine": 258727,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 0.5,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 0.5,
+        "defaultUnit": 0
+      }
+    },
+    {
+      "id": "VCO2LFOKnob",
+      "label": "Oscillator II - Mod Amount",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.0,
+      "rawArgs": [
+        "0",
+        "uVar2",
+        "0"
+      ],
+      "slot": "0xa2",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 495,
+      "customMapping": {
+        "kind": "midpoint",
+        "midpoint": 0.1,
+        "skew": 0.3010299956639812,
+        "symmetric": false,
+        "nativeSetter": "FUN_180009be0",
+        "dspDecompiledLine": 258752,
+        "physicalAtUnitHalf": 0.1,
+        "defaultUnit": 0.0
+      },
+      "dspDecompiledLine": 258741
+    },
+    {
+      "id": "DetuneKnob",
+      "label": "Oscillator II -  Detune",
+      "minimum": -7.0,
+      "maximum": 7.0,
+      "default": 0.1,
+      "rawArgs": [
+        "CONCAT44(_UNK_1805101c4,_DAT_1805101c0)",
+        "CONCAT44(_UNK_1805101cc,_UNK_1805101c8)",
+        "uVar1"
+      ],
+      "slot": "0xa1",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 509,
+      "customMapping": {
+        "kind": "explicitSkew",
+        "skew": 0.5,
+        "symmetric": true,
+        "nativeSetter": "FUN_180009c60",
+        "dspDecompiledLine": 258770,
+        "storedArithmeticCenter": 0.0,
+        "physicalAtUnitHalf": 0.0,
+        "defaultUnit": 0.5597614304667196
+      },
+      "dspDecompiledLine": 258755
+    },
+    {
+      "id": "MixVCO1Knob",
+      "label": "Mixer - Oscillator I",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.7,
+      "rawArgs": [
+        "0",
+        "uVar2",
+        "DAT_18050f340"
+      ],
+      "slot": "0xa0",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 528,
+      "dspDecompiledLine": 258774,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 0.5,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 0.5,
+        "defaultUnit": 0.7
+      }
+    },
+    {
+      "id": "MixVCO2Knob",
+      "label": "Mixer - Oscillator II",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.7,
+      "rawArgs": [
+        "0",
+        "uVar2",
+        "uVar1"
+      ],
+      "slot": "0x9f",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 543,
+      "dspDecompiledLine": 258789,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 0.5,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 0.5,
+        "defaultUnit": 0.7
+      }
+    },
+    {
+      "id": "MixNoiseKnob",
+      "label": "Mixer - Noise",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.0,
+      "rawArgs": [
+        "0",
+        "uVar2",
+        "0"
+      ],
+      "slot": "0x9e",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 557,
+      "dspDecompiledLine": 258803,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 0.5,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 0.5,
+        "defaultUnit": 0
+      }
+    },
+    {
+      "id": "FAttackKnob",
+      "label": "Filter - Attack",
+      "minimum": 3.0,
+      "maximum": 3000.0,
+      "default": 5.0,
+      "rawArgs": [
+        "uVar6",
+        "DAT_18050f748",
+        "DAT_18050f560"
+      ],
+      "slot": "0x9d",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 573,
+      "customMapping": {
+        "kind": "midpoint",
+        "midpoint": 1000.0,
+        "skew": 0.6297809529313951,
+        "symmetric": false,
+        "nativeSetter": "FUN_180009be0",
+        "dspDecompiledLine": 258833,
+        "physicalAtUnitHalf": 1000.0,
+        "defaultUnit": 0.010000733803547539
+      },
+      "dspDecompiledLine": 258819
+    },
+    {
+      "id": "FDecayKnob",
+      "label": "Filter - Decay",
+      "minimum": 3.0,
+      "maximum": 10000.0,
+      "default": 250.0,
+      "rawArgs": [
+        "uVar6",
+        "DAT_18050f7a8",
+        "DAT_18050f6a8"
+      ],
+      "slot": "0x9c",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 592,
+      "customMapping": {
+        "kind": "midpoint",
+        "midpoint": 1000.0,
+        "skew": 0.3006768405528933,
+        "symmetric": false,
+        "nativeSetter": "FUN_180009be0",
+        "dspDecompiledLine": 258851,
+        "physicalAtUnitHalf": 1000.0,
+        "defaultUnit": 0.32867023752011476
+      },
+      "dspDecompiledLine": 258838
+    },
+    {
+      "id": "FSustainKnob",
+      "label": "Filter - Sustain",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.8,
+      "rawArgs": [
+        "0",
+        "DAT_18050f3e0",
+        "DAT_18050f368"
+      ],
+      "slot": "0x9b",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 609,
+      "dspDecompiledLine": 258855,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 0.5,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 0.5,
+        "defaultUnit": 0.8
+      }
+    },
+    {
+      "id": "FReleaseKnob",
+      "label": "Filter - Release",
+      "minimum": 3.0,
+      "maximum": 10000.0,
+      "default": 150.0,
+      "rawArgs": [
+        "uVar6",
+        "uVar13",
+        "DAT_18050f690"
+      ],
+      "slot": "0x9a",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 624,
+      "customMapping": {
+        "kind": "midpoint",
+        "midpoint": 2000.0,
+        "skew": 0.4303553951786526,
+        "symmetric": false,
+        "nativeSetter": "FUN_180009be0",
+        "dspDecompiledLine": 258884,
+        "physicalAtUnitHalf": 2000.0,
+        "defaultUnit": 0.16268638391871573
+      },
+      "dspDecompiledLine": 258870
+    },
+    {
+      "id": "CutoffKnob",
+      "label": "Filter - Cutoff ",
+      "minimum": -6.0,
+      "maximum": 4.5,
+      "default": 4.5,
+      "rawArgs": [
+        "DAT_18050fc48",
+        "_DAT_180510180",
+        "_UNK_180510188"
+      ],
+      "slot": "0x99",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 641,
+      "dspDecompiledLine": 258887,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": -0.75,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": -0.75,
+        "defaultUnit": 1
+      }
+    },
+    {
+      "id": "ResonanceKnob",
+      "label": "Filter - Resonance",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.0,
+      "rawArgs": [
+        "0",
+        "DAT_18050f3e0",
+        "0"
+      ],
+      "slot": "0x98",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 656,
+      "dspDecompiledLine": 258902,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 0.5,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 0.5,
+        "defaultUnit": 0
+      }
+    },
+    {
+      "id": "VCFTrkKnob",
+      "label": "Filter - Keyboard Tracking",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.45,
+      "rawArgs": [
+        "0",
+        "CONCAT44(_UNK_180510104,_DAT_180510100)",
+        "CONCAT44(_UNK_18051010c,_UNK_180510108)"
+      ],
+      "slot": "0x97",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 670,
+      "dspDecompiledLine": 258916,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 0.5,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 0.5,
+        "defaultUnit": 0.45
+      }
+    },
+    {
+      "id": "GlobKnob",
+      "label": "Filter - Starve",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.0,
+      "rawArgs": [
+        "0",
+        "DAT_18050f3e0",
+        "0"
+      ],
+      "slot": "0x96",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 686,
+      "dspDecompiledLine": 258932,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 0.5,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 0.5,
+        "defaultUnit": 0
+      }
+    },
+    {
+      "id": "GrabKnob",
+      "label": "Filter - Drive",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.0,
+      "rawArgs": [
+        "0",
+        "DAT_18050f3e0",
+        "0"
+      ],
+      "slot": "0x95",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 700,
+      "dspDecompiledLine": 258946,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 0.5,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 0.5,
+        "defaultUnit": 0
+      }
+    },
+    {
+      "id": "FilterLFOKnob",
+      "label": "Filter - Mod Depth",
+      "minimum": 0.0,
+      "maximum": 2.0,
+      "default": 0.0,
+      "rawArgs": [
+        "0",
+        "DAT_18050f4c0",
+        "0"
+      ],
+      "slot": "0x94",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 715,
+      "customMapping": {
+        "kind": "midpoint",
+        "midpoint": 0.2,
+        "skew": 0.3010299956639812,
+        "symmetric": false,
+        "nativeSetter": "FUN_180009be0",
+        "dspDecompiledLine": 258973,
+        "physicalAtUnitHalf": 0.2,
+        "defaultUnit": 0.0
+      },
+      "dspDecompiledLine": 258961
+    },
+    {
+      "id": "LFOWaveKnob",
+      "label": "Modulator - Waveform",
+      "minimum": 0.0,
+      "maximum": 5.0,
+      "default": 2.0,
+      "rawArgs": [
+        "0",
+        "uVar2",
+        "uVar1"
+      ],
+      "slot": "0x92",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 730,
+      "dspDecompiledLine": 258976,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 2.5,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 2.5,
+        "defaultUnit": 0.4
+      }
+    },
+    {
+      "id": "fxLFOWaveKnob",
+      "label": "FX Modulator - Waveform",
+      "minimum": 0.0,
+      "maximum": 5.0,
+      "default": 2.0,
+      "rawArgs": [
+        "0",
+        "uVar2",
+        "uVar1"
+      ],
+      "slot": "0x93",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 744,
+      "dspDecompiledLine": 258990,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 2.5,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 2.5,
+        "defaultUnit": 0.4
+      }
+    },
+    {
+      "id": "Octave2Knob",
+      "label": "Oscillator II - Range",
+      "minimum": 0.0,
+      "maximum": 4.0,
+      "default": 1.0,
+      "rawArgs": [
+        "0",
+        "uVar12",
+        "DAT_18050f3e0"
+      ],
+      "slot": "0x91",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 759,
+      "dspDecompiledLine": 259005,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 2.0,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 2.0,
+        "defaultUnit": 0.25
+      }
+    },
+    {
+      "id": "Wave2Knob",
+      "label": "Oscillator II - Wave",
+      "minimum": 0.0,
+      "maximum": 4.0,
+      "default": 1.0,
+      "rawArgs": [
+        "0",
+        "uVar12",
+        "DAT_18050f3e0"
+      ],
+      "slot": "0x90",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 774,
+      "dspDecompiledLine": 259020,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 2.0,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 2.0,
+        "defaultUnit": 0.25
+      }
+    },
+    {
+      "id": "Octave1Knob",
+      "label": "Oscillator I - Range",
+      "minimum": 0.0,
+      "maximum": 4.0,
+      "default": 1.0,
+      "rawArgs": [
+        "0",
+        "uVar12",
+        "DAT_18050f3e0"
+      ],
+      "slot": "0x8f",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 788,
+      "dspDecompiledLine": 259034,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 2.0,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 2.0,
+        "defaultUnit": 0.25
+      }
+    },
+    {
+      "id": "ResponseKnob",
+      "label": "Filter - Response",
+      "minimum": 0.0,
+      "maximum": 4.0,
+      "default": 0.0,
+      "rawArgs": [
+        "0",
+        "uVar12",
+        "0"
+      ],
+      "slot": "0x8e",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 803,
+      "dspDecompiledLine": 259049,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 2.0,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 2.0,
+        "defaultUnit": 0
+      }
+    },
+    {
+      "id": "Wave1Knob",
+      "label": "Oscillator I - Wave",
+      "minimum": 0.0,
+      "maximum": 4.0,
+      "default": 2.0,
+      "rawArgs": [
+        "0",
+        "uVar12",
+        "uVar1"
+      ],
+      "slot": "0x8d",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 817,
+      "dspDecompiledLine": 259063,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 2.0,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 2.0,
+        "defaultUnit": 0.5
+      }
+    },
+    {
+      "id": "FADSRKnob",
+      "label": "Filter - Envelope Generator Depth",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "default": 0.0,
+      "rawArgs": [
+        "DAT_18050fc08",
+        "DAT_18050f3e0",
+        "0"
+      ],
+      "slot": "0x7c",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 967,
+      "dspDecompiledLine": 259213,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 0.0,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 0.0,
+        "defaultUnit": 0.5
+      }
+    },
+    {
+      "id": "FVelKnob",
+      "label": "Filter - Velocity",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.0,
+      "rawArgs": [
+        "0",
+        "uVar1",
+        "0"
+      ],
+      "slot": "0x7b",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 982,
+      "dspDecompiledLine": 259228,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 0.5,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 0.5,
+        "defaultUnit": 0
+      }
+    },
+    {
+      "id": "AAttackKnob",
+      "label": "Amp - Attack",
+      "minimum": 3.0,
+      "maximum": 3000.0,
+      "default": 5.0,
+      "rawArgs": [
+        "uVar6",
+        "uVar5",
+        "DAT_18050f560"
+      ],
+      "slot": "0x79",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1007,
+      "customMapping": {
+        "kind": "midpoint",
+        "midpoint": 1000.0,
+        "skew": 0.6297809529313951,
+        "symmetric": false,
+        "nativeSetter": "FUN_180009be0",
+        "dspDecompiledLine": 259266,
+        "physicalAtUnitHalf": 1000.0,
+        "defaultUnit": 0.010000733803547539
+      },
+      "dspDecompiledLine": 259253
+    },
+    {
+      "id": "ADecayKnob",
+      "label": "Amp - Decay",
+      "minimum": 3.0,
+      "maximum": 10000.0,
+      "default": 250.0,
+      "rawArgs": [
+        "uVar6",
+        "uVar13",
+        "uVar3"
+      ],
+      "slot": "0x78",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1023,
+      "customMapping": {
+        "kind": "midpoint",
+        "midpoint": 1000.0,
+        "skew": 0.3006768405528933,
+        "symmetric": false,
+        "nativeSetter": "FUN_180009be0",
+        "dspDecompiledLine": 259281,
+        "physicalAtUnitHalf": 1000.0,
+        "defaultUnit": 0.32867023752011476
+      },
+      "dspDecompiledLine": 259269
+    },
+    {
+      "id": "ASustainKnob",
+      "label": "Amp - Sustain",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.8,
+      "rawArgs": [
+        "0",
+        "uVar1",
+        "uVar8"
+      ],
+      "slot": "0x77",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1038,
+      "dspDecompiledLine": 259284,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 0.5,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 0.5,
+        "defaultUnit": 0.8
+      }
+    },
+    {
+      "id": "AReleaseKnob",
+      "label": "Amp - Release",
+      "minimum": 3.0,
+      "maximum": 10000.0,
+      "default": 150.0,
+      "rawArgs": [
+        "uVar6",
+        "uVar13",
+        "DAT_18050f690"
+      ],
+      "slot": "0x76",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1052,
+      "customMapping": {
+        "kind": "midpoint",
+        "midpoint": 2000.0,
+        "skew": 0.4303553951786526,
+        "symmetric": false,
+        "nativeSetter": "FUN_180009be0",
+        "dspDecompiledLine": 259311,
+        "physicalAtUnitHalf": 2000.0,
+        "defaultUnit": 0.16268638391871573
+      },
+      "dspDecompiledLine": 259298
+    },
+    {
+      "id": "GrotKnob",
+      "label": "Amp -Drive",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.0,
+      "rawArgs": [
+        "0",
+        "uVar1",
+        "0"
+      ],
+      "slot": "0x75",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1068,
+      "dspDecompiledLine": 259314,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 0.5,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 0.5,
+        "defaultUnit": 0
+      }
+    },
+    {
+      "id": "AmpLFOKnob",
+      "label": "Amp - Mod Depth",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.0,
+      "rawArgs": [
+        "0",
+        "uVar1",
+        "0"
+      ],
+      "slot": "0x74",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1081,
+      "customMapping": {
+        "kind": "midpoint",
+        "midpoint": 0.4,
+        "skew": 0.7564707973660301,
+        "symmetric": false,
+        "nativeSetter": "FUN_180009be0",
+        "dspDecompiledLine": 259339,
+        "physicalAtUnitHalf": 0.4,
+        "defaultUnit": 0.0
+      },
+      "dspDecompiledLine": 259327
+    },
+    {
+      "id": "AVelKnob",
+      "label": "Amp - Velocity",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.0,
+      "rawArgs": [
+        "0",
+        "uVar1",
+        "0"
+      ],
+      "slot": "0x73",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1096,
+      "dspDecompiledLine": 259342,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 0.5,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 0.5,
+        "defaultUnit": 0
+      }
+    },
+    {
+      "id": "VolumeKnob",
+      "label": "Volume",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.5,
+      "rawArgs": [
+        "0",
+        "uVar1",
+        "DAT_18050f2f8"
+      ],
+      "slot": "0x71",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1122,
+      "dspDecompiledLine": 259368,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 0.5,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 0.5,
+        "defaultUnit": 0.5
+      }
+    },
+    {
+      "id": "TuneKnob",
+      "label": "Master Tune",
+      "minimum": -7.1,
+      "maximum": 7.1,
+      "default": 0.0,
+      "rawArgs": [
+        "uVar5",
+        "CONCAT44(_UNK_1805101dc,_UNK_1805101d8)",
+        "0"
+      ],
+      "slot": "0x70",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1136,
+      "customMapping": {
+        "kind": "explicitSkew",
+        "skew": 0.5,
+        "symmetric": true,
+        "nativeSetter": "FUN_180009c60",
+        "dspDecompiledLine": 259397,
+        "storedArithmeticCenter": 0.0,
+        "physicalAtUnitHalf": 0.0,
+        "defaultUnit": 0.5
+      },
+      "dspDecompiledLine": 259382
+    },
+    {
+      "id": "arpSpeed",
+      "label": "Arpeggio - Speed",
+      "minimum": 0.25,
+      "maximum": 30.0,
+      "default": 6.5,
+      "rawArgs": [
+        "DAT_18050f238",
+        "CONCAT44(_UNK_1805101b4,_DAT_1805101b0)",
+        "CONCAT44(_UNK_1805101bc,_UNK_1805101b8)"
+      ],
+      "slot": "0x62",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1327,
+      "customMapping": {
+        "kind": "explicitSkew",
+        "skew": 0.5,
+        "symmetric": false,
+        "nativeSetter": "FUN_180009c60",
+        "dspDecompiledLine": 259588,
+        "storedArithmeticCenter": 15.125,
+        "physicalAtUnitHalf": 7.6875,
+        "defaultUnit": 0.45834924851410563
+      },
+      "dspDecompiledLine": 259573
+    },
+    {
+      "id": "phsrSpeed",
+      "label": "Phasor - Speed",
+      "minimum": 0.01,
+      "maximum": 8.0,
+      "default": 0.4,
+      "rawArgs": [
+        "DAT_18050f0f0",
+        "DAT_18050f590",
+        "uVar6"
+      ],
+      "slot": "0x4a",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1614,
+      "customMapping": {
+        "kind": "explicitSkew",
+        "skew": 0.5,
+        "symmetric": false,
+        "nativeSetter": "FUN_180009c60",
+        "dspDecompiledLine": 259874,
+        "storedArithmeticCenter": 4.005,
+        "physicalAtUnitHalf": 2.0075,
+        "defaultUnit": 0.22093214742813916
+      },
+      "dspDecompiledLine": 259860
+    },
+    {
+      "id": "phsrDepth",
+      "label": "Phasor - Depth",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.65,
+      "rawArgs": [
+        "0",
+        "DAT_18050f3e0",
+        "DAT_18050f328"
+      ],
+      "slot": "0x49",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1632,
+      "dspDecompiledLine": 259878,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 0.5,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 0.5,
+        "defaultUnit": 0.65
+      }
+    },
+    {
+      "id": "phsrFXModAmt",
+      "label": "Phasor - FX Modulator",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "default": 0.0,
+      "rawArgs": [
+        "uVar4",
+        "DAT_18050f3e0",
+        "0"
+      ],
+      "slot": "0x48",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1647,
+      "customMapping": {
+        "kind": "explicitSkew",
+        "skew": 0.5,
+        "symmetric": true,
+        "nativeSetter": "FUN_180009c60",
+        "dspDecompiledLine": 259905,
+        "storedArithmeticCenter": 0.0,
+        "physicalAtUnitHalf": 0.0,
+        "defaultUnit": 0.5
+      },
+      "dspDecompiledLine": 259893
+    },
+    {
+      "id": "flngChorSpeed",
+      "label": "Flange/Chorus - Speed",
+      "minimum": 0.01,
+      "maximum": 8.0,
+      "default": 1.0,
+      "rawArgs": [
+        "uVar1",
+        "uVar3",
+        "DAT_18050f3e0"
+      ],
+      "slot": "0x47",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1662,
+      "customMapping": {
+        "kind": "explicitSkew",
+        "skew": 0.5,
+        "symmetric": false,
+        "nativeSetter": "FUN_180009c60",
+        "dspDecompiledLine": 259922,
+        "storedArithmeticCenter": 4.005,
+        "physicalAtUnitHalf": 2.0075,
+        "defaultUnit": 0.35200125156223055
+      },
+      "dspDecompiledLine": 259908
+    },
+    {
+      "id": "flngChorRes",
+      "label": "Flange/Chorus - Resonance",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.7,
+      "rawArgs": [
+        "0",
+        "DAT_18050f3e0",
+        "DAT_18050f340"
+      ],
+      "slot": "0x46",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1680,
+      "dspDecompiledLine": 259926,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 0.5,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 0.5,
+        "defaultUnit": 0.7
+      }
+    },
+    {
+      "id": "flngChorDepth",
+      "label": "Flange/Chorus - Depth",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.65,
+      "rawArgs": [
+        "0",
+        "DAT_18050f3e0",
+        "uVar6"
+      ],
+      "slot": "0x45",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1695,
+      "dspDecompiledLine": 259941,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 0.5,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 0.5,
+        "defaultUnit": 0.65
+      }
+    },
+    {
+      "id": "echoTime",
+      "label": "Echo - Time",
+      "minimum": 1.0,
+      "maximum": 2000.0,
+      "default": 500.0,
+      "rawArgs": [
+        "DAT_18050f3e0",
+        "uVar7",
+        "DAT_18050f6d8"
+      ],
+      "slot": "0x44",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1711,
+      "customMapping": {
+        "kind": "explicitSkew",
+        "skew": 0.5,
+        "symmetric": false,
+        "nativeSetter": "FUN_180009c60",
+        "dspDecompiledLine": 259970,
+        "storedArithmeticCenter": 1000.5,
+        "physicalAtUnitHalf": 500.75,
+        "defaultUnit": 0.49962467153474627
+      },
+      "dspDecompiledLine": 259957
+    },
+    {
+      "id": "flngChorFXModAmt",
+      "label": "Flange/Chorus - FX Modulator",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "default": 0.0,
+      "rawArgs": [
+        "uVar4",
+        "uVar6",
+        "0"
+      ],
+      "slot": "0x43",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1727,
+      "customMapping": {
+        "kind": "explicitSkew",
+        "skew": 0.5,
+        "symmetric": true,
+        "nativeSetter": "FUN_180009c60",
+        "dspDecompiledLine": 259986,
+        "storedArithmeticCenter": 0.0,
+        "physicalAtUnitHalf": 0.0,
+        "defaultUnit": 0.5
+      },
+      "dspDecompiledLine": 259973
+    },
+    {
+      "id": "flngChorMix",
+      "label": "Flange/Chorus - Mix",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.5,
+      "rawArgs": [
+        "0",
+        "uVar6",
+        "uVar12"
+      ],
+      "slot": "0x42",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1743,
+      "dspDecompiledLine": 259989,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 0.5,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 0.5,
+        "defaultUnit": 0.5
+      }
+    },
+    {
+      "id": "echoTimeModAmt",
+      "label": "Echo - Time FX Modulator",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "default": 0.0,
+      "rawArgs": [
+        "uVar4",
+        "uVar6",
+        "0"
+      ],
+      "slot": "0x41",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1757,
+      "customMapping": {
+        "kind": "explicitSkew",
+        "skew": 0.5,
+        "symmetric": true,
+        "nativeSetter": "FUN_180009c60",
+        "dspDecompiledLine": 260016,
+        "storedArithmeticCenter": 0.0,
+        "physicalAtUnitHalf": 0.0,
+        "defaultUnit": 0.5
+      },
+      "dspDecompiledLine": 260003
+    },
+    {
+      "id": "echoMix",
+      "label": "Echo - Mix",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.25,
+      "rawArgs": [
+        "0",
+        "uVar6",
+        "uVar2"
+      ],
+      "slot": "0x40",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1773,
+      "dspDecompiledLine": 260019,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 0.5,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 0.5,
+        "defaultUnit": 0.25
+      }
+    },
+    {
+      "id": "phsrRes",
+      "label": "Phasor - Resonance",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.7,
+      "rawArgs": [
+        "0",
+        "uVar6",
+        "uVar3"
+      ],
+      "slot": "0x3f",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1786,
+      "dspDecompiledLine": 260032,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 0.5,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 0.5,
+        "defaultUnit": 0.7
+      }
+    },
+    {
+      "id": "phsrQwidth",
+      "label": "Phasor - Q-Width",
+      "minimum": 0.01,
+      "maximum": 1.0,
+      "default": 0.8,
+      "rawArgs": [
+        "uVar1",
+        "uVar6",
+        "uVar8"
+      ],
+      "slot": "0x3e",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1799,
+      "dspDecompiledLine": 260045,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 0.505,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 0.505,
+        "defaultUnit": 0.797979797979798
+      }
+    },
+    {
+      "id": "echoFdbck",
+      "label": "Echo - Feedback",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.35,
+      "rawArgs": [
+        "0",
+        "uVar6",
+        "DAT_18050f270"
+      ],
+      "slot": "0x3d",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1814,
+      "dspDecompiledLine": 260060,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 0.5,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 0.5,
+        "defaultUnit": 0.35
+      }
+    },
+    {
+      "id": "echoModRate",
+      "label": "Echo - Mod Rate",
+      "minimum": 0.2,
+      "maximum": 20.0,
+      "default": 6.0,
+      "rawArgs": [
+        "DAT_18050f210",
+        "DAT_18050f5f0",
+        "DAT_18050f570"
+      ],
+      "slot": "0x3c",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1831,
+      "customMapping": {
+        "kind": "midpoint",
+        "midpoint": 6.0,
+        "skew": 0.5645330024381906,
+        "symmetric": false,
+        "nativeSetter": "FUN_180009be0",
+        "dspDecompiledLine": 260091,
+        "physicalAtUnitHalf": 6.0,
+        "defaultUnit": 0.5
+      },
+      "dspDecompiledLine": 260077
+    },
+    {
+      "id": "echoModDepth",
+      "label": "Echo - Mod Depth",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.0,
+      "rawArgs": [
+        "0",
+        "uVar6",
+        "0"
+      ],
+      "slot": "0x3b",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1848,
+      "customMapping": {
+        "kind": "explicitSkew",
+        "skew": 0.5,
+        "symmetric": false,
+        "nativeSetter": "FUN_180009c60",
+        "dspDecompiledLine": 260106,
+        "storedArithmeticCenter": 0.5,
+        "physicalAtUnitHalf": 0.25,
+        "defaultUnit": 0.0
+      },
+      "dspDecompiledLine": 260094
+    },
+    {
+      "id": "echoDamp",
+      "label": "Echo - Damp",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.2,
+      "rawArgs": [
+        "0",
+        "uVar6",
+        "uVar1"
+      ],
+      "slot": "0x3a",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1863,
+      "dspDecompiledLine": 260109,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 0.5,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 0.5,
+        "defaultUnit": 0.2
+      }
+    },
+    {
+      "id": "echoSpread",
+      "label": "Echo - Spread",
+      "minimum": 0.0,
+      "maximum": 20.0,
+      "default": 5.0,
+      "rawArgs": [
+        "0",
+        "uVar3",
+        "DAT_18050f560"
+      ],
+      "slot": "0x39",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1876,
+      "dspDecompiledLine": 260122,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 10.0,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 10.0,
+        "defaultUnit": 0.25
+      }
+    },
+    {
+      "id": "reverbDec",
+      "label": "Reverb - Decay",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.5,
+      "rawArgs": [
+        "0",
+        "uVar6",
+        "uVar12"
+      ],
+      "slot": "0x38",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1891,
+      "dspDecompiledLine": 260137,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 0.5,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 0.5,
+        "defaultUnit": 0.5
+      }
+    },
+    {
+      "id": "reverbPredelay",
+      "label": "Reverb - Predelay",
+      "minimum": 0.0,
+      "maximum": 150.0,
+      "default": 0.0,
+      "rawArgs": [
+        "0",
+        "uVar14",
+        "0"
+      ],
+      "slot": "0x37",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1905,
+      "dspDecompiledLine": 260151,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 75.0,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 75.0,
+        "defaultUnit": 0
+      }
+    },
+    {
+      "id": "reverbHP",
+      "label": "Reverb - Highpass",
+      "minimum": 20.0,
+      "maximum": 20000.0,
+      "default": 20.0,
+      "rawArgs": [
+        "uVar3",
+        "_DAT_180510270",
+        "uVar3"
+      ],
+      "slot": "0x36",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1922,
+      "customMapping": {
+        "kind": "explicitSkew",
+        "skew": 0.5,
+        "symmetric": false,
+        "nativeSetter": "FUN_180009c60",
+        "dspDecompiledLine": 260182,
+        "storedArithmeticCenter": 10010.0,
+        "physicalAtUnitHalf": 5015.0,
+        "defaultUnit": 0.0
+      },
+      "dspDecompiledLine": 260168
+    },
+    {
+      "id": "reverbLP",
+      "label": "Reverb - Lowpass",
+      "minimum": 20.0,
+      "maximum": 20000.0,
+      "default": 20000.0,
+      "rawArgs": [
+        "uVar3",
+        "uVar1",
+        "uVar2"
+      ],
+      "slot": "0x35",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1939,
+      "customMapping": {
+        "kind": "explicitSkew",
+        "skew": 0.5,
+        "symmetric": false,
+        "nativeSetter": "FUN_180009c60",
+        "dspDecompiledLine": 260198,
+        "storedArithmeticCenter": 10010.0,
+        "physicalAtUnitHalf": 5015.0,
+        "defaultUnit": 1.0
+      },
+      "dspDecompiledLine": 260185
+    },
+    {
+      "id": "reverbDecModAmt",
+      "label": "Echo - Decay FX Modulator",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "default": 0.0,
+      "rawArgs": [
+        "uVar4",
+        "uVar6",
+        "0"
+      ],
+      "slot": "0x34",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1955,
+      "customMapping": {
+        "kind": "explicitSkew",
+        "skew": 0.5,
+        "symmetric": true,
+        "nativeSetter": "FUN_180009c60",
+        "dspDecompiledLine": 260214,
+        "storedArithmeticCenter": 0.0,
+        "physicalAtUnitHalf": 0.0,
+        "defaultUnit": 0.5
+      },
+      "dspDecompiledLine": 260201
+    },
+    {
+      "id": "reverbMix",
+      "label": "Reverb - Mix",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.5,
+      "rawArgs": [
+        "0",
+        "uVar6",
+        "uVar12"
+      ],
+      "slot": "0x33",
+      "constructorFunction": "FUN_180131620",
+      "constructorExtractLine": 1972,
+      "dspDecompiledLine": 260218,
+      "customMapping": {
+        "kind": "linear",
+        "midpoint": 0.5,
+        "skew": 1,
+        "symmetric": false,
+        "physicalAtUnitHalf": 0.5,
+        "defaultUnit": 0.5
+      }
+    }
+  ],
+  "mapping": {
+    "plainPhysicalToUnit": "pow(clamp((x-lo)/(hi-lo),0,1),k)",
+    "plainUnitToPhysical": "lo+(hi-lo)*pow(clamp(u,0,1),1/k)",
+    "symmetricPhysicalToUnit": "t=2*clamp((x-lo)/(hi-lo),0,1)-1; u=(sign(t)*pow(abs(t),k)+1)/2",
+    "symmetricUnitToPhysical": "t=2*clamp(u,0,1)-1; x=lo+(hi-lo)*(sign(t)*pow(abs(t),1/k)+1)/2",
+    "zeroSign": "sign(0)=0",
+    "midpointToSkew": "k=ln(.5)/ln((mid-lo)/(hi-lo))"
+  },
+  "source": {
+    "PSHostVtable": "0x1407cc318",
+    "explicitSkewSetter": "FUN_1404af070 via+0x240",
+    "midpointSetter": "FUN_1404aee70 via+0x248",
+    "physicalToUnit": "FUN_1400f2460 viaPSSlider+0x198",
+    "unitToPhysical": "FUN_1400f2330 viaPSSlider+0x190"
+  }
+}

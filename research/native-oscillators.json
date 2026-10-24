@@ -1,0 +1,74 @@
+{
+  "source": {
+    "initialize": "FUN_18012f9e0",
+    "process": "FUN_18000d970",
+    "analyticTriangle": "FUN_18000de20"
+  },
+  "length": 8000,
+  "stride": 8002,
+  "harmonicCounts": [
+    338,
+    283,
+    238,
+    201,
+    169,
+    142,
+    119,
+    100,
+    84,
+    70,
+    59,
+    50,
+    42,
+    35,
+    29,
+    25,
+    20,
+    16,
+    13,
+    12,
+    10,
+    8,
+    6,
+    5,
+    5,
+    4,
+    3,
+    2,
+    2,
+    1,
+    1,
+    1,
+    1
+  ],
+  "duty1": [
+    0.5,
+    0.5,
+    0.428,
+    0.196,
+    0.073
+  ],
+  "duty2": [
+    0.5,
+    0.5,
+    0.447,
+    0.204,
+    0.055
+  ],
+  "rampFourier": "sum h=1..H sin(2*pi*i*h/8000)/h; raw sum, NO -3.25 multiplier",
+  "triangleFourier": "sum odd h=1..H alternatingSign*sin(2*pi*i*h/8000)/h^2",
+  "rampAnalytic": "(phase/8000 - .5) * -3.25",
+  "triangleAnalytic": "t=phase/8000; t<.5 ? (4*t-1)*1.33333333 : (3-4*t)*1.33333333",
+  "shapeOutput": {
+    "triangle": "4.5*triAtPhasePlusThreeQuarters + .8*(rampCurrent-rampPrevious)",
+    "saw": "-4.6*rampCurrent",
+    "pulse": "-4.8*(rampShiftedByDuty-rampCurrent-(1.6-3.2*duty))"
+  },
+  "trianglePhaseIncrement": {
+    "phaseUnder4000": 1.015,
+    "phaseAtLeast4000": 0.9854368932038836
+  },
+  "pitchFrequency": "p=clamp(CV-1.842,-20.99,8.95); freq=min(22000, 46.875 * 2^floor(p) * 1.25 * table2pow[floor(frac(p)*2400)]); table2pow[k]=2^(k/2400)",
+  "bandSelection": "base=max(0,4*floor(p)); band=min(32,base+floor(4*frac(p))); weight=frac(4*frac(p)); adjacent=min(32,band+1); for p>0 crossfade bands; p<=-.25 analytic; -.25<p<=0 crossfade analytic and band0",
+  "phaseLookup": "nearest integer sample, no within-table interpolation in decompilation; crossfade only across pitch bands"
+}

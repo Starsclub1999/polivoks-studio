@@ -1,13 +1,10 @@
 @echo off
-chcp 65001 >nul
 cd /d "%~dp0"
-where py >nul 2>nul
-if not errorlevel 1 (
-  py -3 start-local.py
-) else (
-  python start-local.py
-)
+where powershell.exe >nul 2>nul
 if errorlevel 1 (
-  echo Требуется Python 3. Либо загрузите эту папку на GitHub Pages и откройте сайт по HTTPS.
+  echo Open OPEN_FORMANTA.html in your browser.
   pause
+  exit /b 1
 )
+powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File "%~dp0tools\local-server.ps1"
+if errorlevel 1 pause

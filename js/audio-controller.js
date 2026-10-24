@@ -3,10 +3,12 @@ let ctx=null,node=null,analyser=null,engine=null,audioWorker=null,audioOut=null,
 const audioPerf={underruns:null,missing:0,queued:0,load:0,worst:0,block:0,quantum:0,late:0,benchmark:null,technology:''};
 let audioProfile=PVBoot.fresh?'auto':(PVStore.get('audio-profile-v3')||'auto');
 if(!['auto','live','buffered','safe','direct'].includes(audioProfile))audioProfile='auto';
-const AUDIO_VERSION='7.0.0';
+const AUDIO_VERSION='8.2.0';
+let synthTempo=120,programRevision=0;
+function setSynthTempo(value){synthTempo=clamp(Number.isFinite(+value)?+value:120,1,450);if($('synthTempo'))$('synthTempo').value=synthTempo;syncAudio();autoSave()}
 let directReadyPromise=null,audioUnlockPending=false;
-function audioURL(path){let u=new URL(path,document.baseURI);u.searchParams.set('v',AUDIO_VERSION);return u.href}
-function statePacket(){return{type:'params',p:performanceParams(),fx:{...fx,bpm:typeof tempoAt==='function'&&playing?tempoAt(playheadStep):+$('bpm').value,kit:drumKits[currentKit],drumTracks},extended,wheel:modWheel,bend,pressure}}
+function audioURL(path){if(window.FORMANTA_AUDIO?.[path])return window.FORMANTA_AUDIO[path];let u=new URL(path,document.baseURI);u.searchParams.set('v',AUDIO_VERSION);return u.href}
+function statePacket(){return{type:'params',p:performanceParams(),programRevision,fx:{...fx,bpm:synthTempo,studioBpm:typeof tempoAt==='function'&&playing?tempoAt(playheadStep):+$('bpm').value,clockLinked:false,kit:drumKits[currentKit],drumTracks},extended,wheel:modWheel,bend,pressure}}
 function post(m){if(!audioReady)return;if(audioWorker){if(m.type==='record')node.port.postMessage(m);else audioWorker.postMessage({type:'command',data:m})}else node?.port.postMessage(m)}
 function syncAudio(){post(statePacket())}
 function updateAudioDiagnostic(){
@@ -15,7 +17,11 @@ function updateAudioDiagnostic(){
  let test=audioPerf.benchmark,device=ctx?Math.round(((ctx.baseLatency||0)+(ctx.outputLatency||0))*1000):0;
  $('diagnosticReadout').textContent=(audioWorker?'Готовый PCM: '+Math.round(audioPerf.queued/sr*1000)+' мс. DSP '+audioPerf.load.toFixed(0)+'%, максимум блока '+audioPerf.worst.toFixed(1)+' мс. ':'LIVE: дополнительной PCM-очереди нет; пропуски драйвера здесь не измеряются. ')+(test?'Стартовый тест 16 голосов: P95 '+test.p95.toFixed(2)+' / бюджет '+test.budget.toFixed(2)+' мс. ':'')+'Заявленная браузером задержка тракта: '+device+' мс. Это не замер задержки от клавиши до наушников.';
 }
+const instrumentTelemetryQueue=[];let lastInstrumentTelemetry=null;
+function acceptInstrumentTelemetry(m){instrumentTelemetryQueue.push(m);if(instrumentTelemetryQueue.length>160)instrumentTelemetryQueue.splice(0,instrumentTelemetryQueue.length-160)}
+function instrumentTelemetry(){if(!audioReady||!ctx)return null;let now=ctx.currentTime;while(instrumentTelemetryQueue.length&&instrumentTelemetryQueue[0].at<=now+.001)lastInstrumentTelemetry=instrumentTelemetryQueue.shift();let src=lastInstrumentTelemetry;if(!src)return null;let q={...src},dt=Math.max(0,Math.min(.08,now-src.at));for(let[k,h,active]of[['mainPhase','mainHz',true],['fxPhase','fxHz',true],['arpPhase','arpHz',true],['phaserPhase','phaserHz',src.phActive],['chorusPhase','chorusHz',src.chActive],['echoTimePhase','echoTimeHz',src.eActive],['echoModPhase','echoModHz',src.eActive]])if(active)q[k]=(src[k]+dt*src[h])%1;if(now-src.at>.18){q.synthPeak=0;q.clip=false}return q}
 function handleAudioMessage(m){
+ if(m.type==='instrumentTelemetry'){acceptInstrumentTelemetry(m);return}
  if(m.type==='pcm')acceptPCM(m.chunks);
  if(m.type==='recordFlushed'){recordingFlushResolve?.();return}if(m.type==='meter'){if(m.technology)audioPerf.technology=m.technology;audioPeak=m.peak||0;if(m.voices!==undefined)audioVoices=m.voices;audioPerf.quantum=m.quantum||128;if(m.late!==undefined)audioPerf.late=m.late;if(m.underruns!==undefined){audioPerf.underruns=m.underruns;audioPerf.missing=m.missing;audioPerf.queued=m.queued}updateAudioDiagnostic()}
 }
@@ -30,15 +36,15 @@ async function createDirectAudio(){
  await loadWorklet('audio/direct.js');
  node=new AudioWorkletNode(ctx,'pv-direct',{numberOfInputs:1,numberOfOutputs:1,outputChannelCount:[2],processorOptions:{state:statePacket()}});
  directReadyPromise=new Promise((resolve,reject)=>{let timeout=setTimeout(()=>reject(Error('LIVE: движок не ответил')),8000);node.onprocessorerror=()=>{clearTimeout(timeout);reject(Error('Не удалось инициализировать LIVE DSP'))};node.port.onmessage=e=>{if(e.data.type==='primed'){clearTimeout(timeout);resolve()}else handleAudioMessage(e.data)}});
- processorMode='LIVE / WASM ZDF 4×';
+ processorMode='LIVE / WASM / VCO + SLEW VCF';
 }
 async function createBufferedAudio(profile){
  const block=profile==='live'?512:profile==='safe'?2048:1024,goal=profile==='live'?4:profile==='safe'?8:6;
  audioQueueSeconds=block*goal/ctx.sampleRate;await loadWorklet('audio/consumer.js');
  node=new AudioWorkletNode(ctx,'pv-buffered-sink',{numberOfInputs:1,numberOfOutputs:1,outputChannelCount:[2]});node.port.onmessage=e=>handleAudioMessage(e.data);
  const channel=new MessageChannel();node.port.postMessage({type:'pipe',goal,block,port:channel.port2},[channel.port2]);
- audioWorker=new Worker(audioURL('audio/producer.js'),{type:'module',name:'Polivoks DSP 7'});
- await new Promise((resolve,reject)=>{let timeout=setTimeout(()=>reject(Error('PCM Worker: время запуска истекло')),10000);audioWorker.onerror=e=>{clearTimeout(timeout);reject(Error('DSP Worker: '+e.message))};audioWorker.onmessage=e=>{const m=e.data;if(m.type==='primed'){clearTimeout(timeout);resolve()}if(m.type==='workerStats'){if(m.technology)audioPerf.technology=m.technology;audioPerf.load=m.load;audioPerf.worst=m.worstMs;audioPerf.block=m.blockMs;audioPerf.late=m.late;audioVoices=m.voices;updateAudioDiagnostic()}};audioWorker.postMessage({type:'init',sr:ctx.sampleRate,block,goal,frame:Math.round(ctx.currentTime*ctx.sampleRate),state:statePacket(),port:channel.port1},[channel.port1])});
+ audioWorker=new Worker(audioURL('audio/producer.js'),{type:'module',name:'Polivoks DSP 8'});
+ await new Promise((resolve,reject)=>{let timeout=setTimeout(()=>reject(Error('PCM Worker: время запуска истекло')),10000);audioWorker.onerror=e=>{clearTimeout(timeout);reject(Error('DSP Worker: '+e.message))};audioWorker.onmessage=e=>{const m=e.data;if(m.type==='instrumentTelemetry'){acceptInstrumentTelemetry(m);return}if(m.type==='primed'){clearTimeout(timeout);resolve()}if(m.type==='workerStats'){if(m.technology)audioPerf.technology=m.technology;audioPerf.load=m.load;audioPerf.worst=m.worstMs;audioPerf.block=m.blockMs;audioPerf.late=m.late;audioVoices=m.voices;updateAudioDiagnostic()}};audioWorker.postMessage({type:'init',sr:ctx.sampleRate,block,goal,frame:Math.round(ctx.currentTime*ctx.sampleRate),state:statePacket(),port:channel.port1},[channel.port1])});
  audioPerf.underruns=0;processorMode='WORKER / PCM '+Math.round(audioQueueSeconds*1000)+' ms';
 }
 async function startAudio(){
@@ -46,6 +52,7 @@ async function startAudio(){
  startPromise=(async()=>{try{
   $('audioProfile').disabled=true;
   if(!ctx){
+   if(!window.isSecureContext)throw Error('Для звука нужен OPEN_FORMANTA.html, localhost или HTTPS');
    let selected=audioProfile,benchmark=null;
    ctx=new(window.AudioContext||window.webkitAudioContext)({sampleRate:48000,latencyHint:['auto','direct','live'].includes(audioProfile)?'interactive':.025});
    audioUnlockPending=true;await ctx.resume();audioUnlockPending=false;await ctx.suspend();
@@ -65,14 +72,15 @@ async function startAudio(){
    audioReady=true;syncAudio();audioOut.gain.setTargetAtTime(1,ctx.currentTime,.006);
    if(micStream){micNode=ctx.createMediaStreamSource(micStream);micNode.connect(node)}
   }
-  audioUnlockPending=true;await ctx.resume();audioUnlockPending=false;PVBoot.audioStarted();$('audioLed').classList.add('on');$('status').lastChild.textContent=' 48 kHz / '+(audioWorker?'PCM':'LIVE');$('power').textContent='ЗВУК ВКЛЮЧЁН';$('power').classList.add('on');$('engineInfo').textContent=processorMode+' • 48000 Hz • WASM ZDF / ФИЛЬТР 4×';updateAudioDiagnostic();return true;
+  audioUnlockPending=true;await ctx.resume();audioUnlockPending=false;PVBoot.audioStarted();$('audioLed').classList.add('on');$('status').lastChild.textContent=' 48 kHz / '+(audioWorker?'PCM':'LIVE');$('power').textContent='ЗВУК ВКЛЮЧЁН';$('power').classList.add('on');$('engineInfo').textContent=processorMode+' • 48000 Hz • WASM f64 / ФИЛЬТР 4×';updateAudioDiagnostic();return true;
  }catch(e){
-  audioReady=false;audioUnlockPending=false;directReadyPromise?.catch(()=>{});directReadyPromise=null;audioWorker?.terminate();audioWorker=null;node?.disconnect();analyser?.disconnect();audioOut?.disconnect();if(ctx){try{await ctx.close()}catch{}}ctx=node=analyser=engine=audioOut=null;
+  audioReady=false;instrumentTelemetryQueue.length=0;lastInstrumentTelemetry=null;audioUnlockPending=false;directReadyPromise?.catch(()=>{});directReadyPromise=null;audioWorker?.terminate();audioWorker=null;node?.disconnect();analyser?.disconnect();audioOut?.disconnect();if(ctx){try{await ctx.close()}catch{}}ctx=node=analyser=engine=audioOut=null;
   $('power').textContent='ПОВТОРИТЬ ЗАПУСК';$('engineInfo').textContent='ОШИБКА: '+e.message;PVBoot.failure('Не удалось включить звук: '+e.message);toast('Аудио: '+e.message);return false;
  }finally{$('audioProfile').disabled=false;startPromise=null}})();return startPromise;
 }
 async function changeAudioProfile(){
  audioProfile=$('audioProfile').value;PVStore.set('audio-profile-v3',audioProfile);if(!ctx)return;
+ instrumentTelemetryQueue.length=0;lastInstrumentTelemetry=null;
  if(recording)await stopRecording();stopNativeTone();stop();micNode?.disconnect();node?.disconnect();analyser?.disconnect();audioOut?.disconnect();audioWorker?.terminate();audioWorker=null;await ctx.close();ctx=node=analyser=engine=audioOut=null;directReadyPromise=null;audioReady=false;startPromise=null;await startAudio();toast(processorMode);
 }
 function stopNativeTone(){if(!nativeTone)return;try{nativeToneGain.gain.setTargetAtTime(0,ctx.currentTime,.006);nativeTone.stop(ctx.currentTime+.05)}catch{}nativeTone=null;nativeToneGain=null;if(audioOut)audioOut.gain.setTargetAtTime(1,ctx.currentTime,.01);$('nativeTone').classList.remove('on');$('nativeTone').textContent='▶ ЧИСТЫЙ ТОН / ТЕСТ'}

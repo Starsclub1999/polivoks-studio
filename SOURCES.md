@@ -12,7 +12,7 @@ source numeric values, original English names, metadata and per-file hashes.
 No proprietary executable, original GUI asset or user guide PDF is included
 in this release. The pixel cabinet, reception, catalogue and folder are
 rendered by the app's own HTML/CSS/canvas code. The browser instrument is
-called Polivoks; the studio is FORMANTA — Sound Clinic.
+called Polivoks; the studio is FORMANTA — Sound Laboratory.
 
 The closed native DSP cannot establish a browser implementation by itself.
 The release uses its own C/WebAssembly/JavaScript synthesis model, documented
@@ -41,35 +41,15 @@ represented as having been published or included in this browser model.
 
 ## Music sources
 
-`REPERTOIRE.json` records every bundled MIDI arrangement: source URL,
-uploader, source title, track names, source protobuf hash, local SMF hash,
-length and recommended sound. `MUSIC_CATALOG.csv` is the readable catalogue.
+The catalogue contains 220 distinct source MIDI arrangements/riffs across 25 genre/context folders, with 151 paired source drum parts. `REPERTOIRE.json` records each source URL, arranger/uploader, original title, local SMF SHA-256, duration and part metadata. `MUSIC_CATALOG.csv` also identifies the associated source-bank program.
 
-The fourteen publicly accessible Online Sequencer arrangements were retrieved
-on 2026-10-19. The site's publicly delivered protobuf note data were converted
-to standard SMF 1 using its public schema and MIDI export pitch/drum mappings.
-Only notes, timing, velocity, track labels/program numbers and tempo changes
-are used; no third-party player or synthesizer code is shipped. Timing uses
-384 PPQN (96 ticks per source sixteenth); source volume and instrument volume
-are converted by the source export's velocity scale and MIDI's 1…127 limits.
+The retained earlier arrangements were retrieved on 2026-10-19 from Online Sequencer’s publicly delivered note data and converted to SMF with its public export mappings. New material was acquired on 2026-10-24 through the site’s ordinary Download .mid control, using Popular / All time and featured listings as selection inputs: https://onlinesequencer.net/sequences . Plays are a popularity signal, not an official score-accuracy rating.
 
-These are community transcriptions/arrangements of existing music, not
-original studio MIDI or certified original Polivoks stems. Artist grouping
-provides repertoire context. The USSR folder is explicitly period repertoire.
-The original instrument used for each transcribed part is not verified.
-Credit on a public source is not a representation of a new redistribution
-licence. Source/rights holders retain their respective rights; the site does
-not relicense their music as original or public domain.
+Malformed source exports were accepted only when correcting out-of-range note velocities to127 or the invalid drum-program byte255 to0. Raw and resulting hashes plus exact byte-change counts are retained in source metadata. Pitch, event order, timing and duration were not rewritten. Files with unresolved malformed events were excluded. Alternative arrangements of the same identifiable composition were removed during curation.
 
-For Polivoks use in DOOM, see Mick Gordon's own music presentation and
-interview, e.g. https://origineffects.com/2016/06/21/the-tunes-of-doom-it-djents-interviews-mick-gordon/
-The existence of that use does not establish every transcribed DOOM part's
-original instrument.
+These are community transcriptions and arrangements, not original studio MIDI or certified Polivoks stems. Artist grouping provides repertoire context; the original instrument used for each part is unverified. Source and rights holders retain their respective rights; these arrangements are not relicensed as original or public-domain work.
 
-The opening uses a newly synthesized short Moscow Nights motif associated
-with the Mayak interval signal (composer Vasily Solovyov-Sedoi). It does not
-use a broadcast recording. Drum kits are synthesized interpretations;
-proprietary drum-machine samples are not bundled.
+The opening uses a newly synthesized short Moscow Nights motif associated with the Mayak interval signal, by Vasily Solovyov-Sedoi; no broadcast recording is included. Drum kits are synthesized interpretations, not proprietary drum-machine samples.
 
 ## Platform
 
@@ -79,3 +59,8 @@ proprietary drum-machine samples are not bundled.
 
 All browser runtime resources are local. The public source links open only
 when the visitor selects them; source MIDI playback uses the bundled files.
+
+
+## Native audit8.0
+
+Provided Ghidra DSP and standalone-host decompilation plus PE constants; static analysis only. See NATIVE_AUDIT.md and research/ for verified addresses, curves and equations. No native binary is redistributed or executed. The public shared chat and7.3.4 are untrusted hints, not implementation authority.

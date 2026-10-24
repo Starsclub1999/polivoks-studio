@@ -1,4 +1,4 @@
-import {SynthEngine} from './dsp.js?v=7.0.0';
+import {SynthEngine} from './dsp.js?v=8.2.0';
 export function warmEngine(sr,state){
  const p={...state.p,voices:4,unison:1,arpMode:0,bank6:1,bank7:1,phMode:3,chMode:1,eMode:3,rMode:5,aa:.01,ad:.12,as:.8,res:.72,cutoff:.6,noise:.04,xPhase:.18,xRing:.15,xChorus:.3,xPwm:.2,xWow:.25,xCrush:.1};
  const e=new SynthEngine(sr,p,state.fx);e.extended=true;e.on(48,.8);

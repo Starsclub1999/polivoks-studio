@@ -1,0 +1,282 @@
+[
+  {
+    "id": "LFOLED",
+    "page": "main",
+    "kind": "clock",
+    "telemetry": "mainClock",
+    "parameter": null,
+    "color": "red",
+    "x": 131.33,
+    "y": 36
+  },
+  {
+    "id": "fxModRateLED",
+    "page": "fx",
+    "kind": "clock",
+    "telemetry": "fxClock",
+    "parameter": null,
+    "color": "red",
+    "x": 131.33,
+    "y": 36
+  },
+  {
+    "id": "voiceAssgnUniLED",
+    "page": "main",
+    "kind": "state",
+    "telemetry": null,
+    "parameter": "unison",
+    "color": "red",
+    "x": 275.14,
+    "y": 268.7
+  },
+  {
+    "id": "mastOutLED1",
+    "page": "shared",
+    "kind": "meter",
+    "telemetry": "synthPeak",
+    "parameter": null,
+    "color": "green",
+    "x": 1397,
+    "y": 347
+  },
+  {
+    "id": "mastOutLED2",
+    "page": "shared",
+    "kind": "meter",
+    "telemetry": "synthPeak",
+    "parameter": null,
+    "color": "green",
+    "x": 1411,
+    "y": 347
+  },
+  {
+    "id": "mastOutLED3",
+    "page": "shared",
+    "kind": "meter",
+    "telemetry": "synthPeak",
+    "parameter": null,
+    "color": "green",
+    "x": 1425,
+    "y": 347
+  },
+  {
+    "id": "mastOutLED4",
+    "page": "shared",
+    "kind": "meter",
+    "telemetry": "synthPeak",
+    "parameter": null,
+    "color": "red",
+    "x": 1439,
+    "y": 347
+  },
+  {
+    "id": "mastOutLED5",
+    "page": "shared",
+    "kind": "clip",
+    "telemetry": "synthPeak",
+    "parameter": null,
+    "color": "red",
+    "x": 1453,
+    "y": 347
+  },
+  {
+    "id": "modSyncLED",
+    "page": "main",
+    "kind": "state",
+    "telemetry": null,
+    "parameter": "lfoSync",
+    "color": "red",
+    "x": 146.57,
+    "y": 149.24
+  },
+  {
+    "id": "fxModSyncLED",
+    "page": "fx",
+    "kind": "state",
+    "telemetry": null,
+    "parameter": "fxSync",
+    "color": "red",
+    "x": 146.57,
+    "y": 149.24
+  },
+  {
+    "id": "modKeyResetLED",
+    "page": "main",
+    "kind": "state",
+    "telemetry": null,
+    "parameter": "reset",
+    "color": "red",
+    "x": 253.24,
+    "y": 149.24
+  },
+  {
+    "id": "fxModKeyResetLED",
+    "page": "fx",
+    "kind": "state",
+    "telemetry": null,
+    "parameter": "fxReset",
+    "color": "red",
+    "x": 253.24,
+    "y": 149.24
+  },
+  {
+    "id": "modModWheelLED",
+    "page": "main",
+    "kind": "state",
+    "telemetry": null,
+    "parameter": "wheelOn",
+    "color": "red",
+    "x": 199.91,
+    "y": 149.24
+  },
+  {
+    "id": "fxModModWheelLED",
+    "page": "fx",
+    "kind": "state",
+    "telemetry": null,
+    "parameter": "fxWheel",
+    "color": "red",
+    "x": 199.91,
+    "y": 149.24
+  },
+  {
+    "id": "arpEnblLED",
+    "page": "fx",
+    "kind": "clock",
+    "telemetry": "arpClock",
+    "parameter": "arpMode",
+    "color": "red",
+    "x": 159.2,
+    "y": 249
+  },
+  {
+    "id": "arpSpeedLED",
+    "page": "fx",
+    "kind": "registered_inactive",
+    "telemetry": null,
+    "parameter": null,
+    "color": "red",
+    "x": 131.33,
+    "y": 299.96
+  },
+  {
+    "id": "arpSyncLED",
+    "page": "fx",
+    "kind": "state",
+    "telemetry": null,
+    "parameter": "arpSync",
+    "color": "red",
+    "x": 254.19,
+    "y": 316.98
+  },
+  {
+    "id": "flngChorSyncLED",
+    "page": "fx",
+    "kind": "state",
+    "telemetry": null,
+    "parameter": "chSync",
+    "color": "red",
+    "x": 587.53,
+    "y": 282.1
+  },
+  {
+    "id": "phsrSyncLED",
+    "page": "fx",
+    "kind": "state",
+    "telemetry": null,
+    "parameter": "phSync",
+    "color": "red",
+    "x": 373.24,
+    "y": 282.57
+  },
+  {
+    "id": "reverbEnblLED",
+    "page": "fx",
+    "kind": "state",
+    "telemetry": null,
+    "parameter": "rMode",
+    "color": "red",
+    "x": 1180.8,
+    "y": 44
+  },
+  {
+    "id": "echoEnblLED",
+    "page": "fx",
+    "kind": "state",
+    "telemetry": null,
+    "parameter": "eMode",
+    "color": "red",
+    "x": 903.2,
+    "y": 44
+  },
+  {
+    "id": "phsrEnblLED",
+    "page": "fx",
+    "kind": "state",
+    "telemetry": null,
+    "parameter": "phMode",
+    "color": "red",
+    "x": 392,
+    "y": 129
+  },
+  {
+    "id": "echoSyncLED",
+    "page": "fx",
+    "kind": "state",
+    "telemetry": null,
+    "parameter": "eSync",
+    "color": "red",
+    "x": 829.43,
+    "y": 269.2
+  },
+  {
+    "id": "echoTimeLED",
+    "page": "fx",
+    "kind": "clock",
+    "telemetry": "echoTimeClock",
+    "parameter": "eMode",
+    "color": "red",
+    "x": 817.05,
+    "y": 161.37
+  },
+  {
+    "id": "echoModRateLED",
+    "page": "fx",
+    "kind": "clock",
+    "telemetry": "echoModClock",
+    "parameter": "eMode",
+    "color": "red",
+    "x": 1025.62,
+    "y": 161.37
+  },
+  {
+    "id": "flngChorSpeedLED",
+    "page": "fx",
+    "kind": "graded",
+    "telemetry": "chorusBrightness",
+    "parameter": "chMode",
+    "color": "red",
+    "x": 573.24,
+    "y": 188
+  },
+  {
+    "id": "phsrSpeedLED",
+    "page": "fx",
+    "kind": "graded",
+    "telemetry": "phaserBrightness",
+    "parameter": "phMode",
+    "color": "red",
+    "x": 358,
+    "y": 188
+  },
+  {
+    "id": "flngChorEnblLED",
+    "page": "fx",
+    "kind": "state",
+    "telemetry": null,
+    "parameter": "chMode",
+    "color": "red",
+    "x": 579.1,
+    "y": 129
+  }
+]

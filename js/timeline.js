@@ -33,12 +33,12 @@ function updatePageButtons(){
 }
 function updateTimeline(){
  if(!$('timelineReadout'))return;syncLoopToTracks();let end=Math.max(songSteps(),loopEnd,storageSteps()),bars=Math.ceil(end/16),span=rollView().span;
- $('rollScroll').max=Math.max(0,end-span);$('rollScroll').value=clamp(+$('rollScroll').value,0,Math.max(0,end-span));
+ $('rollScroll').max=Math.max(0,Math.ceil(end/span)*span-span);$('rollScroll').value=clamp(+$('rollScroll').value,0,Math.max(0,Math.ceil(end/span)*span-span));
  $('drumBarScroll').max=Math.max(0,bars-1);$('drumBarScroll').value=drumBank;$('drumBarJump').max=MAX_BARS;$('drumBarJump').value=drumBank+1;
  $('drumPageInfo').textContent='ТАКТ '+barLabel(drumBank)+' / '+bars+' · '+timeText(secondsBetween(0,drumBank*16));
  $('timelineReadout').textContent=timeText(loopDuration())+' · '+stepLabel(loopStart)+' — '+stepLabel(loopEnd)+' · '+bars+' ТАКТОВ';
  $('noteLength').value=+(noteEnd/16).toFixed(3);$('drumLength').value=+(drumEnd/16).toFixed(3);$('loopFrom').value=+(loopStart/16+1).toFixed(4);$('loopTo').value=+(loopEnd/16+1).toFixed(4);$('timelineLoop').checked=loopEnabled;
- updatePageButtons();drawTimelineRuler();drawSongOverview();drawDrumOverview();
+ updatePageButtons();drawTimelineRuler();drawSongOverview();drawDrumOverview();window.refreshTapeDecks?.();
 }
 function rulerPoint(e,canvas){let r=canvas.getBoundingClientRect();return{x:(e.clientX-r.left)*canvas.width/r.width,y:(e.clientY-r.top)*canvas.height/r.height}}
 function drawTimelineRuler(){let c=$('timelineRuler');if(!c)return;let x=c.getContext('2d'),v=rollView(),X=t=>RX+(t-v.offset)*v.cw;x.clearRect(0,0,c.width,c.height);x.fillStyle='#091911';x.fillRect(0,0,c.width,c.height);x.font='12px Kvant,monospace';x.textBaseline='middle';x.fillStyle='#c8d89c';x.fillText('ЦИКЛ',14,21);
@@ -52,11 +52,11 @@ function initTimeline(){
  const ruler=$('timelineRuler');let rulerDrag=null;
  const apply=e=>{let pt=rulerPoint(e,ruler),v=rollView(),t=clamp(snapTime(v.offset+(pt.x-RX)/v.cw,e),0,MAX_STEPS);if(rulerDrag==='start')setLoop(Math.min(t,loopEnd-.125),loopEnd);else if(rulerDrag==='end')setLoop(loopStart,Math.max(t,loopStart+.125));else seekTo(clamp(t,loopStart,loopEnd-.125))};
  ruler.addEventListener('contextmenu',e=>e.preventDefault());ruler.addEventListener('pointerdown',e=>{e.preventDefault();let pt=rulerPoint(e,ruler),v=rollView(),a=RX+(loopStart-v.offset)*v.cw,b=RX+(loopEnd-v.offset)*v.cw;rulerDrag=e.button===2?'end':e.shiftKey?'start':Math.abs(pt.x-a)<14?'start':Math.abs(pt.x-b)<14?'end':pt.y<36?'end':'seek';ruler.setPointerCapture(e.pointerId);apply(e)});ruler.addEventListener('pointermove',e=>{if(rulerDrag)apply(e)});for(let k of['pointerup','pointercancel'])ruler.addEventListener(k,()=>rulerDrag=null);ruler.addEventListener('dblclick',()=>{loopManual=false;syncLoopToTracks();updateTimeline();drawRoll();autoSave()});
- for(let[id,drum]of[['songOverview',false],['drumOverview',true]]){let c=$(id),moving=false;let nav=e=>{let pt=rulerPoint(e,c),t=clamp(pt.x/c.width*Math.max(songSteps(),loopEnd,storageSteps()),0,MAX_STEPS-1);if(drum)selectDrumBank(Math.floor(t/16));else{$('rollScroll').value=clamp(t-rollView().span/2,0,+$('rollScroll').max);drawRoll();drawSongOverview()}};c.addEventListener('pointerdown',e=>{moving=true;c.setPointerCapture(e.pointerId);nav(e)});c.addEventListener('pointermove',e=>{if(moving)nav(e)});c.addEventListener('pointerup',()=>moving=false);c.addEventListener('pointercancel',()=>moving=false)}
+ for(let[id,drum]of[['songOverview',false],['drumOverview',true]]){let c=$(id),moving=false;let nav=e=>{let pt=rulerPoint(e,c),t=clamp(pt.x/c.width*Math.max(songSteps(),loopEnd,storageSteps()),0,MAX_STEPS-1);if(drum)selectDrumBank(Math.floor(t/16));else{setViewFollow('note',false);$('rollScroll').value=clamp(t-rollView().span/2,0,+$('rollScroll').max);drawRoll();drawSongOverview()}};c.addEventListener('pointerdown',e=>{moving=true;c.setPointerCapture(e.pointerId);nav(e)});c.addEventListener('pointermove',e=>{if(moving)nav(e)});c.addEventListener('pointerup',()=>moving=false);c.addEventListener('pointercancel',()=>moving=false)}
  $('noteLength').onchange=()=>setTrackEnd('notes',+$('noteLength').value*16);$('drumLength').onchange=()=>setTrackEnd('drums',+$('drumLength').value*16);$('loopFrom').onchange=()=>setLoop((+$('loopFrom').value-1)*16,loopEnd);$('loopTo').onchange=()=>setLoop(loopStart,(+$('loopTo').value-1)*16);
  $('timelineLoop').onchange=()=>{loopEnabled=$('timelineLoop').checked;autoSave()};$('fitSong').onclick=fitEnds;
  $('drumBarScroll').oninput=()=>selectDrumBank(+$('drumBarScroll').value);$('drumBarJump').onchange=()=>selectDrumBank(clamp(+$('drumBarJump').value-1,0,MAX_BARS-1));$('drumPrev').onclick=()=>selectDrumBank(Math.max(0,drumBank-1));$('drumNext').onclick=()=>selectDrumBank(Math.min(MAX_BARS-1,drumBank+1));
- $('drumFollow').onchange=()=>{drumPageFollow=$('drumFollow').checked;autoSave()};$('rollScroll').addEventListener('input',()=>{drawTimelineRuler();drawSongOverview()});
+ $('drumFollow').onchange=()=>setViewFollow('drum',$('drumFollow').checked);$('rollScroll').addEventListener('input',()=>{drawTimelineRuler();drawSongOverview()});
  $('newComposition').onclick=()=>{stop();rememberRoll();banks.length=0;banks.push(makeBank());banks[0].roll=[];noteEnd=drumEnd=16;loopStart=0;loopEnd=16;loopManual=false;tempoMap=[];songSections=[];bank=drumBank=0;cueStep=0;touchNotes();renderNotes();renderDrums();updateTimeline();autoSave();toast('НОВАЯ КОМПОЗИЦИЯ / ОДИН ПУСТОЙ ТАКТ')};
  updateTimeline();
 }

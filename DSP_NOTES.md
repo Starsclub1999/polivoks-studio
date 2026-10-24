@@ -1,104 +1,98 @@
-# FORMANTA 7 — DSP and calibration notes
+# Audio implementation · 8.0
 
-This is an independent digital model. The supplied native reference contains
-Windows x64 executables and a user guide, not DSP source code. Its code has
-not been converted into WebAssembly. There are no native plugin binaries,
-original panel bitmaps, activation files or recordings in the web release.
+The base is the clean7.0 project. The former Newton/rational/ZDF filter has been
+replaced in the modern bank path; it is not described as the native algorithm.
+No7.3.4 sound-engine code or calibration/EQ was transplanted.
 
-## Signal path
+## Implemented from verified evidence
 
-Each allocated modern voice uses four oscillator steps per output sample.
-PolyBLEP saw/pulse generation supports oscillator-II frequency modulation,
-signed phase increments, pulse width and waveform transition smoothing.
-The generator/filter hot path is compiled from `dsp/core.c` into
-`audio/core.wasm`. `audio/core-bytes.js` embeds the identical numeric bytes
-so AudioWorklet does not need a fetch, base64 decoder or a compiler.
+- 33 f64 oscillator bands,8000 phase samples per band, recovered harmonic counts,
+  separate oscillator pulse duties, pitch-band blending and triangle phase warp.
+  Tables are generated from Fourier equations once at module initialization.
+- Exponential FM: oscillatorII output×.4×FM depth adds to oscillatorI octave CV.
+- Native MIDI pitch reference is note36. Master tune and oscillatorII detune
+  convert physical semitones to octave CV. Native fractional pitch quantization
+  uses2400 subdivisions per octave.
+- Attack target12.3V, transition at5V; filter sustain5×S, amp sustain3.535×S.
+  Attack coefficient2/(144*timeMs+1), decay/release2/(48*timeMs+1), scaled48000/Fs.
+  Loop threshold is.5V. Velocity contribution is squared.
+- Filter slew=(.5−.47*Starve)×8; state rails−5/+3.5. Input drive=.3+Drive;
+  output tanh gain=.3+2.5*AmpDrive². Resonance feedback follows the verified
+  piecewise curve and crosses into self-oscillation at its upper end.
+- Two independent four-biquad cascades surround the nonlinear filter. Exact f64
+  coefficients are in audio/native-data.js. At48kHz,4× processing gives192kHz.
+  Native oversampling thresholds are68000/188000Hz. Unsupported rates explicitly
+  fail; the browser controller requests48kHz.
+- A30Hz input high-pass and5Hz final DC rejection. Source-derived master level
+  includes squared Volume; studio master and final overload protection remain.
+- Native control power curves:27 nonlinear /38 linear slider declarations.
+  All458 sourceValues objects remain preserved in js/soundbook.js.
+- 20 native timing divisions; rate controls use reverse indexing, echo forward.
+  ARP uses50% gate,1–4octaves and no repeated up/down endpoints.
 
-The filter uses a two-integrator implicit nonlinear state model. A bounded
-rational current law has small-signal slope one:
+## Web-specific behavior and remaining differences
 
-    S(x,R) = R z (27 + z²) / (27 + 9 z²),  z = clamp(x/R, −3, 3)
+The primary VCO/filter code is C compiled to WebAssembly with fixed memory and
+f64 arithmetic. There is no allocation, module loading or decoding inside the C
+render loop. JavaScript fallback uses the same equations and tables. Tanh uses
+an interpolated f64 lookup; C exponent approximation is checked against the JS
+filter. These numerical approximations are not a bit-identical native port.
 
-The corresponding derivative is evaluated from the same reciprocal. A
-linear predictor initializes Newton's method. The solve stops when the
-residual is below 1e−11, with at most five corrections at each oversample.
-This replaces a fixed three-iteration calculation: typical cases avoid
-redundant divisions; difficult cases can take more iterations. Output
-resolution, oversampling and effects are not reduced to save CPU.
+Continuous controls retain browser smoothing. Voice stealing adds a short fade;
+unison detune spread and exact allocation history are approximations. Native
+pre-FX optional shaping branches and every FX internal have not been completely
+ported. Phaser, flange/chorus, digital/tape/ping-pong echo and six reverb modes
+remain independent browser processors. Their ranges, curves, radio states and
+sync timing now match the recovered control metadata.
 
-Drive and resonance influence available rail voltage; a load-dependent
-supply state adds recovery/sag. Starve reduces the rail. LP/BP/HP/notch/peak
-outputs derive from the integrator states. Peak adds a resonant band to the
-input rather than turning into a notch. This is an engineering model of the
-behaviour, not a transistor-by-transistor netlist extracted from the plugin.
+Original-mode compatibility processing, drum synthesis, recorder, limiter and
+studio-wide effects are web implementations. The studio master is separate from
+the plugin-derived Volume law. Exact native loudness, nonlinear phase response
+and complete sonic identity require paired native/web renders with identical
+patch, MIDI, sample rate and controller state; that comparison was not performed.
 
-Decimation uses two cascaded 2:1 polyphase IIR halfband stages. The parallel
-allpass branches use f64x2 SIMD arithmetic. Oscillator/filter state and
-internal arithmetic remain f64; browser output is Float32 PCM. WebAssembly
-memory is fixed at 128 KiB per engine, with 64 reusable voice state slots.
-The JavaScript fallback implements the same implicit filter and halfband
-stages; it retains JS oscillators when SIMD is unavailable.
+## Scheduling
 
-Separate envelope, pitch and control smoothing, the stereo effects rack,
-drum synthesis and sample-frame event queue remain in JavaScript.
-A linked stereo peak limiter replaces always-on output soft saturation in
-the modern path. It prevents hard output overflows without applying a
-continuous high-level colour to quiet signals.
+LIVE runs in AudioWorklet. PCM modes use a module Worker and recycled buffers,
+then a lightweight AudioWorklet sink. At48kHz the selected queue is roughly
+43/128/341ms. AUTO benchmarks the16-voice/all-FX path; it does not guarantee a
+particular machine's output deadline. The graph/device add their own latency.
 
-## Calibration assumptions
+Main-thread drawings and editors are separate from synthesis. Clean Tone uses
+OscillatorNode to bypass synth/drum DSP. PCM underruns measure missing queued
+samples, not USB/ASIO driver events. Web Audio does not expose a native ASIO host.
 
-Native preset values and their physical mappings are retained. The absolute
-frequency reference is an engineering calibration: 1000 Hz at the native
-filter octave reference, with the source −6…+4.5-octave control range and a
-12 Hz…min(22000 Hz,0.46 Fs) clamp. It has not been measured against a native
-reference sweep. Envelope-to-cutoff range is nine octaves at full depth.
-These values address the dark response of the previous model; they are not
-proof of the native filter's transfer function.
+## Build
 
-Filter velocity scales the envelope contribution, so it has no independent
-cutoff effect when envelope depth is zero. Amplifier drive, rail behaviour,
-resonance and cutoff have been revised together. Existing delay, reverb,
-phaser and chorus models remain independent implementations. Linear ADSR
-segments do not establish a match to the native envelope curves.
+`node tools/build-core.cjs --cc /path/to/zig` rebuilds audio/core.wasm and the
+identical embedded byte module. The build is freestanding, with no native DLL
+execution or redistributed plugin binary. `python3 tools/build-offline.py`
+embeds the current modules, font and MIDI into OPEN_FORMANTA.html.
 
-The factory programs themselves are not randomly brightened, normalized
-individually or rewritten. Their 458 native parameter sets, source names,
-metadata and hashes are preserved. Legacy projects keep their stored data;
-version-6 source-bank patches upgrade to the new modern engine on load.
+## 8.1 verified timing / FX corrections
 
-## Threads, buffering and recording
+The source standalone clock is now separate from studio/MIDI tempo, with an explicit
+link switch. Exact native FX LFO shape polarity, pulse range and the 20 Hz TPT lowpass
+are restored. Wheel scaling follows the filter. Delay modulation adds 19.99 ms per
+normalized source; spread is symmetric and final channel times clamp to 1..2000 ms.
+The delay allocation therefore shrank from 50.05 to 2.025 seconds per channel.
+Native skewed mix for echo/reverb and square-root chorus mix replace linear crossfades.
+Reverb decay uses the full physical external modulation range. Main noise remains
+broadband; main S&H now has the source triangular amplitude distribution.
 
-LIVE: AudioWorklet runs SynthEngine. Worker modes render transferable PCM
-blocks and recycle a bounded buffer pool through a MessageChannel to the
-AudioWorklet sink. No SharedArrayBuffer/COOP/COEP headers are required, which
-keeps ordinary GitHub Pages hosting possible. The event scheduler timestamps
-notes in audio time. Profile selection changes buffering, not DSP quality.
+Program revisions reset stale ARP deadlines and retire prior voices while preserving
+held keys. Retiring voices use their last sample under the existing 6 ms de-click fade;
+16 new voices no longer require 16 additional full VCO/filter renders on that transition.
+Unused legacy frequency/filter calculations are skipped on the modern path; envelope
+coefficients are shared across voices. Five fixed-seed renders before/after those two
+unused-calculation optimizations matched exactly over 102400 output samples each.
 
-The 43/128/341 ms queues add latency. No browser implementation can promise
-zero key-to-headphone delay on arbitrary audio drivers. A larger queue can
-absorb temporary stalls; it cannot fix sustained processing above real time.
+See research/native-tempo-fx.md and native-noise-audit.md for addresses and uncertainties.
+The chorus external modulation gate and the independent reverb algorithms remain
+approximations. No running native plug-in A/B or bit-exact full-engine claim is made.
 
-Recording captures the actual stereo sink output. Stop waits for an explicit
-flush acknowledgement before constructing a Blob from PCM16 chunks. Takes
-above RIFF's 32-bit data-size range use an RF64 ds64 header. Browser memory
-and download limits still constrain very large takes.
+## 8.2 program restoration and telemetry
 
-## Rebuilding
+Factory parameter sets, source clock values and the synthesis core are retained. Corrected controller transfer curves and discrete destinations change only previously misinterpreted live mappings. Program selection restores complete source settings; live wheel/pressure/bend are neutralized for reproducible preset auditions.
 
-The website includes the compiled binary and runs without build tools.
-To rebuild with Node and Clang/wasm-ld:
-
-    node tools/build-core.cjs
-
-Or use Zig's C compiler:
-
-    node tools/build-core.cjs --cc /absolute/path/to/zig
-
-This release was built with Zig 0.17.0's Clang frontend, optimized for
-wasm32-freestanding with SIMD128. No unrestricted fast-math reassociation
-or reduced-precision arithmetic is enabled. Compiler/runtime binaries are
-not included in the archive.
-
-See `VALIDATION.md` for observed results. Native reference audio, a physical
-Polivoks and FiiO/Steinberg output hardware were not available for matched
-measurement. Exact sonic equivalence is therefore not claimed.
+Telemetry adds synth-only window peaks and independent main, FX, ARP, phaser, chorus, echo-time and echo-modulation phases. Packets are limited to roughly30Hz and use audio frame timestamps. PCM display waits until the corresponding playback position; inactive effect lamps do not extrapolate. Meter telemetry excludes the drum machine and is measured before the studio protection limiter. UI mechanics use a separate native Web Audio bus and do not enter the music PCM recorder. No queue length or profile latency was increased for these UI features.

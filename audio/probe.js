@@ -1,5 +1,5 @@
-import {SynthEngine} from './dsp.js?v=7.0.0';
-import {warmEngine} from './warmup.js?v=7.0.0';
+import {SynthEngine} from './dsp.js?v=8.2.0';
+import {warmEngine} from './warmup.js?v=8.2.0';
 onmessage=e=>{try{
  const {sr,state}=e.data;warmEngine(sr,state);
  const p={...state.p,voices:4,unison:1,arpMode:0,bank6:1,bank7:1,phMode:3,chMode:1,eMode:3,rMode:5,aa:.01,as:.8,ar:.1,noise:.04,res:.7,xPhase:.14,xRing:.1,xChorus:.25,xPwm:.18};

@@ -1,5 +1,5 @@
 'use strict';
-function selectDrumBank(i,fromTransport=false){if(playing&&!fromTransport){drumPageFollow=false;$('drumFollow').checked=false;}drumBank=Math.floor(clamp(i,0,MAX_BARS-1));ensureBars(drumBank+1);updatePageButtons();renderDrums();updateTimeline();autoSave()}
+function selectDrumBank(i,fromTransport=false){if(!fromTransport)setViewFollow('drum',false);drumBank=Math.floor(clamp(i,0,MAX_BARS-1));ensureBars(drumBank+1);updatePageButtons();renderDrums();updateTimeline();autoSave()}
 function selectDrum(i){selectedDrum=i;const t=drumTracks[i];$('drumSelected').textContent='КАНАЛ '+String(i+1).padStart(2,'0')+' / '+DRUM_NAMES[i];for(let[k,id]of[['level','trackLevel'],['pitch','trackPitch'],['decay','trackDecay'],['tone','trackTone'],['noise','trackNoise'],['drive','trackDrive'],['pan','trackPan']])$(id).value=t[k];document.querySelectorAll('[data-drumname]').forEach(e=>e.classList.toggle('selected',+e.dataset.drumname===i))}
 function renderDrums(){
  if(!$('drumGrid'))return;ensureBars(drumBank+1);$('drumGrid').replaceChildren();banks[drumBank].drums.forEach((row,j)=>{

@@ -26,9 +26,10 @@ function importedProjectRhythm(q){
 }
 function refreshExtraControls(){document.querySelectorAll('.extra-rack')[0]?.classList.toggle('hidden',!!p.bank6);if($('polyHint'))$('polyHint').textContent='ГОЛОСОВ: '+(extended?[1,2,4,8,16][Math.round(p.voices)]||1:p.duo?'ДУО':'МОНО')+(p.unison?' · УНИСОН':'')+' · АРПЕДЖИАТОР '+(p.arpMode?'ВКЛЮЧЁН':'ВЫКЛЮЧЕН')+' · ПАНЕЛЬ '+(panelPage==='fx'?'АРП / ЭФФЕКТЫ':'ОСНОВНАЯ')+' '; for(let[k]of EXTRA_PARAMS){let e=$(k);if(!e)continue;e.value=p[k]||0;e.disabled=!extended;$(k+'Value').textContent=k==='xRatio'?RATIO_LABELS[Math.round((p[k]||0)*10)]:Math.round((p[k]||0)*100)+'%'}if($('extraState'))$('extraState').textContent='ПАНЕЛИ «ОСНОВНАЯ» / «АРП / ЭФФЕКТЫ» ПЕРЕКЛЮЧАЮТСЯ НА ПРИБОРЕ И ЗДЕСЬ'}
 function choosePreset(i,forceMode=false){
- if(typeof controllerTouched!=='undefined')controllerTouched.clear();currentPreset=Math.round(clamp(i,0,presets.length-1));const q=presets[currentPreset];
- if((q.sourceValues||forceMode||$('followPresetMode').checked)&&typeof q.extended==='boolean'){extended=q.extended;$('engineMode').value=extended?'extended':'original'}
- let patch={...q.params};if(q.sourceValues&&!$('followPresetFX').checked)for(let d of defs)if(d.page==='fx')patch[d.id]=p[d.id];patchApply(patch);if($('followPresetFX').checked&&q.fxPatch)for(let[k,v]of Object.entries(q.fxPatch)){fx[k]=v;if($(k))$(k).value=v}
+ if(typeof controllerTouched!=='undefined'){controllerTouched.clear();modWheel=pressure=bend=0;controllerValues[1]=0;for(let id of ['performanceWheel','performancePressure','performanceBend'])if($(id))$(id).value=0}currentPreset=Math.round(clamp(i,0,presets.length-1));const q=presets[currentPreset];
+ programRevision++;synthTempo=clamp(+q.synthTempo||+q.sourceMeta?.standaloneTempo||120,1,450);if($('synthTempo'))$('synthTempo').value=synthTempo;
+ if(typeof q.extended==='boolean'){extended=q.extended;$('engineMode').value=extended?'extended':'original'}
+ let patch={...q.params};patchApply(patch);if(q.fxPatch)for(let[k,v]of Object.entries(q.fxPatch)){fx[k]=v;if($(k))$(k).value=v}
  if(!filteredPresets().some(x=>x.i===currentPreset)){$('category').value=q.cat;$('presetType').value=q.type||'all';$('presetSearch').value='';fillPresets()}
  syncAudio();refreshExtraControls();$('preset').value=currentPreset;$('patchdesc').textContent=q.type+' · '+(q.originalName?q.originalName+' · ':'')+(q.desc||'Пользовательский тембр');$('patchdesc').title=(q.originalName||q.name)+' · '+(q.desc||'');autoSave();toast(q.name);
 }
@@ -51,7 +52,7 @@ function fillComposerPresets(){
 }
 function soundForPhrase(){
  const q=compPresets[currentCompPreset];if(q?.params){if(typeof q.extended==='boolean'){extended=q.extended;$('engineMode').value=extended?'extended':'original'}patchApply(q.params);currentPreset=importedProjectSound({currentPresetName:q.name+' / тембр',catalog:{type:q.instrumentType||'Lead'}});fillPresets();refreshExtraControls();syncAudio();return}
- let i=presets.findIndex(p=>p.id===q?.recommendedPatch);if(i<0){toast('Для личного шаблона тембр выбирается вручную');return}$('category').value=presets[i].cat;$('presetType').value=presets[i].type;$('presetSearch').value='';fillPresets();choosePreset(i,true);
+ let i=presets.findIndex(p=>p.id===(q?.userPatchId||q?.recommendedPatch));if(i<0){toast('Для личного шаблона тембр выбирается вручную');return}$('category').value=presets[i].cat;$('presetType').value=presets[i].type;$('presetSearch').value='';fillPresets();choosePreset(i,true);
 }
 async function loadComposerPreset(index,compose=true){
  const q=compPresets[index];if(!q)return;const serial=++compositionLoadSerial;if(q.midiFile){try{await hydrateComposition(q);if(serial!==compositionLoadSerial)return}catch(e){toast(e.message);return}}if(compose)stop();currentCompPreset=index;activeScoreVariant=q.variant||0;
@@ -62,11 +63,11 @@ async function loadComposerPreset(index,compose=true){
   if(q.recipe||q.cells||q.rolls||q.events){let data=SCOREBOOK.materialize(q);rememberRoll();ensureBars(data.bars.length);for(let {B} of existingBanks())B.roll=[];for(let key of Object.keys(data.bars)){let b=+key;banks[b].roll=(data.bars[b]||[]).map(n=>({id:newNoteId(),note:n[0],start:n[1],duration:n[2],vel:n[3],mode:n[4]||0,prob:n[5]??1,channel:n[6]??0}))}noteEnd=data.length;tempoMap=Array.isArray(q.tempoMap)?q.tempoMap.map(t=>({...t})):[];songSections=data.sections||[];loopManual=false;syncLoopToTracks();cueStep=0;songMode=true;$('songMode').checked=true;bank=0;touchNotes();fitRoll();renderNotes();updateTimeline()
   }else generate(true);
  }
- if($('linkComposerSound').checked&&(q.recommendedPatch||q.params))soundForPhrase();
- let pair=drumPresets.find(d=>d.id===q.recommendedDrums);$('loadMatchedDrums').disabled=!pair;$('composerHint').textContent=(q.desc||'Личный шаблон')+(pair?' ПАРНЫЙ РИТМ: '+pair.name:'');$('compDisplay').textContent=q.name.slice(0,70);syncAudio();autoSave();toast('КОМПОЗИТОР: '+q.name);
+ if(q.recommendedPatch||q.params)soundForPhrase();
+ let pair=drumPresets.find(d=>d.id===q.recommendedDrums);$('loadMatchedDrums').disabled=!pair;$('composerHint').textContent=(q.desc||'Личный шаблон')+(pair?' ПАРНЫЙ РИТМ: '+pair.name:'');$('compDisplay').textContent=q.name.slice(0,70);releaseUnusedMidiData();syncAudio();autoSave();toast('КОМПОЗИТОР: '+q.name);
 }
 function generateFromGenre(fromPreset=false){
- if(playing)stop();rememberRoll();const style=compStyles.find(s=>s.id===$('genStyle').value)||compStyles[0],all=$('generateAll').checked,N=all?Math.round(clamp(+$('generateBars').value||Math.round(+$('bpm').value/4),1,MAX_BARS)):1,settings=Object.fromEntries(compSettingIds.map(k=>[k,$(k).value]));
+ if(playing)stop();rememberRoll();const style=compStyles.find(s=>s.id===$('genStyle').value&&SCOREBOOK.spec[s.id])||compStyles.find(s=>SCOREBOOK.spec[s.id]),all=$('generateAll').checked,N=all?Math.round(clamp(+$('generateBars').value||Math.round(+$('bpm').value/4),1,MAX_BARS)):1,settings=Object.fromEntries(compSettingIds.map(k=>[k,$(k).value]));
  let fake={genre:style.id,type:$('compRole').value,variant:activeScoreVariant,bars:N,settings,recipe:true,manual:true,soundParams:{...p},editedMotif:activeMotif||null},data=materializeScore(fake),rng=seeded(+$('compSeed').value),density=+$('density').value/100,gate=+$('compGate').value/100,sync=+$('syncopation').value/100,evo=+$('evolution').value/100,complexity=+$('complexity').value/100,role=$('compRole').value;
  let offset=all?0:bank;if(all){ensureBars(N);for(let {B} of existingBanks())B.roll=[]}else ensureBars(bank+1);
  for(let b=0;b<N;b++){
@@ -94,11 +95,11 @@ async function loadDrumPattern(index){
  }else{ensureBars(drumBank+1);banks[drumBank].drums=(data.bars[drumBank%data.bars.length]||Array.from({length:7},()=>Array(16).fill(0))).map(row=>row.slice());banks[drumBank].hits=null;drumEnd=Math.max(drumEnd,(drumBank+1)*16)}
  if($('drumTempo').checked){$('bpm').value=q.bpm;if(q.swing!==undefined)$('swing').value=q.swing;tempoMap=Array.isArray(q.tempoMap)?q.tempoMap.map(t=>({...t})):[]}
  if($('drumFollowKit').checked&&q.recommendedKit){let k=drumKits.findIndex(k=>k.id===q.recommendedKit);if(k>=0)kitApply(k,false)}
- loopManual=false;syncLoopToTracks();cueStep=0;songMode=true;$('songMode').checked=true;renderDrums();updateTimeline();syncAudio();let linked=compPresets.find(p=>p.id===q.scoreId);$('loadMatchedNotes').disabled=!linked;$('rhythmHint').textContent=(q.desc||q.name)+(linked?' ДЛЯ НОТ: '+linked.name+' · '+q.bpm+' BPM · '+timeText(q.duration||secondsBetween(0,drumEnd)):'');autoSave();toast('РИТМ: '+q.name);
+ loopManual=false;syncLoopToTracks();cueStep=0;songMode=true;$('songMode').checked=true;renderDrums();updateTimeline();syncAudio();let linked=compPresets.find(p=>p.id===q.scoreId);$('loadMatchedNotes').disabled=!linked;$('rhythmHint').textContent=(q.desc||q.name)+(linked?' ДЛЯ НОТ: '+linked.name+' · '+bpmText(q.bpm)+' BPM · '+timeText(q.duration||secondsBetween(0,drumEnd)):'');autoSave();toast('РИТМ: '+q.name);
 }
 function initBookControls(){
  for(let[k,label,step]of EXTRA_PARAMS){let cell=document.createElement('label');cell.className='extra-param';let title=document.createElement('span');title.textContent=label;let out=document.createElement('output');out.id=k+'Value';let input=document.createElement('input');input.id=k;input.type='range';input.min=0;input.max=1;input.step=step;input.value=p[k]||0;input.oninput=()=>{p[k]=+input.value;refreshExtraControls();syncAudio()};input.onchange=autoSave;cell.append(title,out,input);$('extraParams').append(cell)}
- $('soundForPhrase').onclick=soundForPhrase;
+
  for(let q of compPresets){let v=q.settings?.progression;if(v&&![...$('progression').options].some(o=>o.value===v))$('progression').add(new Option(v,v))}
  $('drumGenre').add(new Option('ВСЕ ЖАНРЫ','all'));for(let g of compStyles)$('drumGenre').add(new Option(g.name,g.id));$('drumGenre').add(new Option('ИМПОРТ ПРОЕКТА','import'));$('drumGenre').onchange=fillDrumBooks;$('drumSearch').oninput=fillDrumBooks;
  const oldEngine=$('engineMode').onchange;$('engineMode').onchange=e=>{oldEngine?.(e);refreshExtraControls()};
